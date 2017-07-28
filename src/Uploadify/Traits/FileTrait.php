@@ -7,55 +7,71 @@ trait FileTrait
     /**
      * Get file with full path
      *
+     * @param  string  $field
      * @return string
      */
-    public function getUploadFilePath()
+    public function getFile($field)
     {
-        if (! $this->getUploadFile()) {
+        if (! $this->getFileName($field)) {
             return;
         }
 
-        return $this->uploadFilePath.$this->getUploadFile();
+        return $this->getFilePath($field).$this->getFileName($field);
     }
 
     /**
-     * Get upload file value
+     * Get file name with extension
      *
+     * @param  string  $field
      * @return string
      */
-    public function getUploadFile()
+    public function getFileName($field)
     {
-        return $this->{$this->uploadFileField};
+        return $this->getAttribute($field);
+    }
+
+    /**
+     * Get file path
+     *
+     * @param  string  $field
+     * @return string
+     */
+    protected function getFilePath($field)
+    {
+        return $this->files[$field]['path'];
     }
 
     /**
      * Get file base name without extension
      *
+     * @param  string  $field
      * @return string
      */
-    public function getUploadFileBasename()
+    public function getFileBasename($field)
     {
-        return pathinfo($this->getUploadFile(), PATHINFO_FILENAME);
+        return pathinfo($this->getFileName($field), PATHINFO_FILENAME);
     }
 
     /**
      * Get file extension
      *
+     * @param  string  $field
      * @return string
      */
-    public function getUploadFileExtension()
+    public function getFileExtension($field)
     {
-        return pathinfo($this->getUploadFile(), PATHINFO_EXTENSION);
+        return pathinfo($this->getFileName($field), PATHINFO_EXTENSION);
     }
 
     /**
      * Get file size in bytes
      *
+     * @param  string  $field
      * @return int
      */
-    public function getUploadFileSize()
+    public function getFileSize($field)
     {
-        return filesize(config('filesystems.disks.'.$this->getDisk().'.root').DIRECTORY_SEPARATOR.$this->uploadFilePath.$this->getUploadFile());
+        return filesize(config('filesystems.disks.'.$this->getDisk().'.root').DIRECTORY_SEPARATOR.$this->getFile($field));
     }
 
     /**
