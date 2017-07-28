@@ -1,0 +1,39 @@
+{
+    "name": "fsasvari/laravel-uploadify",
+    "description": "Library for Laravel that handles image uploading with renaming, showing thumbnail image with custom route and more.",
+    "keywords": ["upload", "image", "file", "laravel", "php"],
+    "license": "MIT",
+    "homepage": "https://github.com/fsasvari/laravel-uploadify",
+    "authors": [
+        {
+            "name": "Frano Sasvari",
+            "email": "sasvari.frano@gmail.com"
+        }
+    ],
+    "require": {
+        
+    },
+    "require-dev": {
+        "mockery/mockery": "0.9.*",
+        "phpunit/phpunit": "~5.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Uploadify\\": "src/Uploadify/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Uploadify\\UploadifyServiceProvider.php"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
