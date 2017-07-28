@@ -32,7 +32,7 @@ composer update
 
 After installing the Laravel Trailing Slash library, register the `LaravelTrailingSlash\RoutingServiceProvider` in your `config/app.php` configuration file:
 
-```
+```php
 'providers' => [
     // Application Service Providers...
     // ...
@@ -53,7 +53,7 @@ There are two types of traits for models - `FileTrait` and `ImageTrait`.
 
 If you need files, you should use trait `Uploadify\Traits\FileTrait`:
 
-```
+```php
 use Uploadify\Traits\FileTrait;
 
 class Car extends Eloquent
@@ -76,7 +76,7 @@ class Car extends Eloquent
 
 If you need images, you should use trait `Uploadify\Traits\ImageTrait`:
 
-```
+```php
 use Uploadify\Traits\ImageTrait;
 
 class User extends Eloquent
