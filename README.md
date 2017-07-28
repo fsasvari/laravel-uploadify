@@ -48,3 +48,49 @@ After installing the Laravel Trailing Slash library, register the `LaravelTraili
 ### Models
 
 There are two types of traits for models - `FileTrait` and `ImageTrait`.
+
+#### File Trait
+
+If you need files, you should use trait `Uploadify\Traits\FileTrait`:
+
+```
+use Uploadify\Traits\FileTrait;
+
+class Car extends Eloquent
+{
+    use FileTrait;
+
+    /**
+     * List of uploadify files
+     *
+     * @var array
+     */
+    public $files = [
+        'upload_information' => ['path' => 'upload/documents/information/'],
+        'upload_specification' => ['path' => 'upload/documents/specification/'],
+    ];
+}
+```
+
+#### Image Trait
+
+If you need images, you should use trait `Uploadify\Traits\ImageTrait`:
+
+```
+use Uploadify\Traits\ImageTrait;
+
+class User extends Eloquent
+{
+    use ImageTrait;
+
+    /**
+     * List of uploadify images
+     *
+     * @var array
+     */
+    public $images = [
+        'upload_cover' => ['path' => 'upload/images/cover/', 'path_thumb' => 'upload/images/cover/thumb'],
+        'upload_avatar' => ['path' => 'upload/images/avatar/', 'path_thumb' => 'upload/images/avatar/thumb'],
+    ];
+}
+```
