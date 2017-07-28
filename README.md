@@ -47,11 +47,11 @@ After installing the Laravel Trailing Slash library, register the `LaravelTraili
 
 ### Models
 
-There are two types of traits for models - `FileTrait` and `ImageTrait`.
+There are two types of traits for Eloquent models - `FileTrait` and `ImageTrait`.
 
 #### File Trait
 
-If you need files, you should use trait `Uploadify\Traits\FileTrait`:
+If you need files in Eloquent model, you should use trait `Uploadify\Traits\FileTrait`:
 
 ```php
 use Uploadify\Traits\FileTrait;
@@ -74,7 +74,7 @@ class Car extends Eloquent
 
 #### Image Trait
 
-If you need images, you should use trait `Uploadify\Traits\ImageTrait`:
+If you need images in Eloquent model, you should use trait `Uploadify\Traits\ImageTrait`:
 
 ```php
 use Uploadify\Traits\ImageTrait;
@@ -91,6 +91,39 @@ class User extends Eloquent
     public $images = [
         'upload_cover' => ['path' => 'upload/images/cover/', 'path_thumb' => 'upload/images/cover/thumb'],
         'upload_avatar' => ['path' => 'upload/images/avatar/', 'path_thumb' => 'upload/images/avatar/thumb'],
+    ];
+}
+```
+
+#### File and Image Traits combined
+
+You can also combine traits in one Eloquent model:
+
+```php
+use Uploadify\Traits\FileTrait;
+use Uploadify\Traits\ImageTrait;
+
+class Car extends Eloquent
+{
+    use FileTrait, ImageTrait;
+
+    /**
+     * List of uploadify files
+     *
+     * @var array
+     */
+    public $files = [
+        'upload_information' => ['path' => 'upload/documents/information/'],
+        'upload_specification' => ['path' => 'upload/documents/specification/'],
+    ];
+
+    /**
+     * List of uploadify images
+     *
+     * @var array
+     */
+    public $images = [
+        'upload_cover' => ['path' => 'upload/images/cover/', 'path_thumb' => 'upload/images/cover/thumb'],
     ];
 }
 ```
