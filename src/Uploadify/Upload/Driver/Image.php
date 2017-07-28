@@ -11,83 +11,83 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class Image extends AbstractDriver implements DriverInterface
 {
-	/**
-	 * Driver name
-	 *
-	 * @var string
-	 */
-	protected $driver = 'image';
+    /**
+     * Driver name
+     *
+     * @var string
+     */
+    protected $driver = 'image';
 
-	/**
-	 * The intervention image instance
-	 *
-	 * @var \Intervention\Image\Image
-	 */
-	protected $file;
+    /**
+     * The intervention image instance
+     *
+     * @var \Intervention\Image\Image
+     */
+    protected $file;
 
-	/**
-	 * Image quality
-	 *
-	 * @var int
-	 */
-	protected $quality = 90;
+    /**
+     * Image quality
+     *
+     * @var int
+     */
+    protected $quality = 90;
 
-	/**
-	 * Set intervention image as file source
-	 *
-	 * @param  \Intervention\Image\Image  $file
-	 * @return $this
-	 * @throws \Symfony\Component\HttpFoundation\File\Exception\FileException
-	 */
-	public function setFile($file)
-	{
-		if (! ($file instanceof InterventionImage)) {
-			throw new FileException('File source must be instance of Intervention\Image\Image!');
-		}
+    /**
+     * Set intervention image as file source
+     *
+     * @param  \Intervention\Image\Image  $file
+     * @return $this
+     * @throws \Symfony\Component\HttpFoundation\File\Exception\FileException
+     */
+    public function setFile($file)
+    {
+        if (! ($file instanceof InterventionImage)) {
+            throw new FileException('File source must be instance of Intervention\Image\Image!');
+        }
 
-		$this->file = $file;
+        $this->file = $file;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Set image quality
-	 *
-	 * @param  int  $quality
-	 * @return $this
-	 */
-	public function setQuality($quality = 90)
-	{
-		$this->quality = $quality;
+    /**
+     * Set image quality
+     *
+     * @param  int  $quality
+     * @return $this
+     */
+    public function setQuality($quality = 90)
+    {
+        $this->quality = $quality;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Upload image
-	 *
-	 * @param  int  $quality
-	 * @return $this
-	 */
-	public function upload()
-	{
-		$this->createDirectory($this->model->uploadImagePath);
+    /**
+     * Upload image
+     *
+     * @param  int  $quality
+     * @return $this
+     */
+    public function upload()
+    {
+        $this->createDirectory($this->model->uploadImagePath);
 
-		$name = $this->rename($this->model->uploadImagePath, $this->name, $this->extension);
-		$path = $this->storage->disk($this->getDisk())->getDriver()->getAdapter()->getPathPrefix();
+        $name = $this->rename($this->model->uploadImagePath, $this->name, $this->extension);
+        $path = $this->storage->disk($this->getDisk())->getDriver()->getAdapter()->getPathPrefix();
 
-		$this->file->save($path.'/'.$this->model->uploadImagePath.$name, $this->quality);
+        $this->file->save($path.'/'.$this->model->uploadImagePath.$name, $this->quality);
 
-		return $name;
-	}
+        return $name;
+    }
 
-	/**
-	 * Delete file from default model storage disk
-	 *
-	 * @return bool
-	 */
-	public function delete()
-	{
-		return $this->storage->disk($this->getDisk())->delete($this->model->uploadImagePath.$this->model->getUploadImage());
-	}
+    /**
+     * Delete file from default model storage disk
+     *
+     * @return bool
+     */
+    public function delete()
+    {
+        return $this->storage->disk($this->getDisk())->delete($this->model->uploadImagePath.$this->model->getUploadImage());
+    }
 }

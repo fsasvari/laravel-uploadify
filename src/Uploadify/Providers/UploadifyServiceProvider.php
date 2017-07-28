@@ -27,7 +27,7 @@ class UploadifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-		$this->app->singleton(UploadManager::class, function ($app) {
+        $this->app->singleton(UploadManager::class, function ($app) {
             return new UploadManager($app->make(Storage::class));
         });
     }
