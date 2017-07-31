@@ -201,4 +201,17 @@ $car->upload_avatar->getUrl(200, 200); // upload/images/avatar/thumb/user-avatar
 
 ### Upload
 
+```php
+// Illuminate\Http\Request
+$file = $request->file('avatar');
+
 $uploadManager = new UploadManager();
+$avatar = $uploadManager
+    ->setFile($file)
+    ->upload();
+
+$user = new User();
+$user->upload_avatar = $avatar;
+// $user->...
+$user->save();
+```
