@@ -55,9 +55,7 @@ There are two types of traits for Eloquent models - `FileTrait` and `ImageTrait`
 
 #### File Trait
 
-If you need files in Eloquent model, you should use trait `Uploadify\Traits\FileTrait`:
-
-If you need to show simple files in Eloquent model (pdf, doc, zip...), you should use `Uploadify\Traits\FileTrait` trait. You need to define `public $files` property with database field name as key and `path` as array value which is required.
+If you need to show simple files (pdf, doc, zip...) in Eloquent model, you should use `Uploadify\Traits\FileTrait` trait. You need to define `$files` property with database field name as key and `path` as array value which is required.
 
 ```php
 <?php
@@ -84,7 +82,7 @@ class Car extends Eloquent
 
 #### Image Trait
 
-If you need to show images in Eloquent model (jpg, png, gif...), you should use `Uploadify\Traits\ImageTrait` trait. You need to define `public $images` property with database field name as key and paths as array values (`path` and `path_thumb`). `path` value is required, but `path_thumb` is not. Use `path_thumb` only if path to thumb images is different then default one (we always use `thumb/` prefix on defined `path` value).
+If you need to show images (jpg, png, gif...) in Eloquent model, you should use `Uploadify\Traits\ImageTrait` trait. You need to define `$images` property with database field name as key and paths as array values (`path` and `path_thumb`). `path` value is required, but `path_thumb` is not. Use `path_thumb` only if path to thumb images is different then default one (we always use `thumb/` prefix on defined `path` value).
 
 ```php
 <?php
