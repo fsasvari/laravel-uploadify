@@ -1,6 +1,6 @@
 # Laravel Uploadify
 
-Uploadify is a library for Laravel that handles image uploading with automatic renaming, showing thumbnail image with custom routes and more.
+Uploadify is a library for Laravel that handles image uploading with automatic renaming, showing thumbnail image with custom routes and more. All that is available over Eloquent models.
 
 [![Build For Laravel](https://img.shields.io/badge/Built_for-Laravel-orange.svg)](https://styleci.io/repos/79834672)
 [![Latest Stable Version](https://poser.pugx.org/fsasvari/laravel-uploadify/v/stable)](https://packagist.org/packages/fsasvari/laravel-uploadify)
@@ -10,7 +10,9 @@ Uploadify is a library for Laravel that handles image uploading with automatic r
 
 ## Installation
 
-To get started with Laravel Uploadify, execute Composer command to add the package to your project's dependencies:
+### Step 1: Install package
+
+To get started with Laravel Uploadify, execute Composer command to add the package to your composer.json project's dependencies:
 
 ```
 composer require fsasvari/laravel-uploadify
@@ -28,7 +30,7 @@ And then run composer update:
 composer update
 ```
 
-## Configuration
+### Step 2: Service Provider
 
 After installing the Laravel Trailing Slash library, register the `LaravelTrailingSlash\RoutingServiceProvider` in your `config/app.php` configuration file:
 
@@ -43,9 +45,11 @@ After installing the Laravel Trailing Slash library, register the `LaravelTraili
 ],
 ```
 
-## Usage
+### Step 3: Configuration
 
-### Models
+
+
+### Step 4: Models
 
 There are two types of traits for Eloquent models - `FileTrait` and `ImageTrait`.
 
