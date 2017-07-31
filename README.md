@@ -145,3 +145,6 @@ class Car extends Eloquent
     ];
 }
 ```
+
+## Usage
+
