@@ -53,7 +53,13 @@ There are two types of traits for Eloquent models - `FileTrait` and `ImageTrait`
 
 If you need files in Eloquent model, you should use trait `Uploadify\Traits\FileTrait`:
 
+If you need to show simple files in Eloquent model (pdf, doc, zip...), you should use `Uploadify\Traits\FileTrait` trait. You need to define `public $files` property with database field name as key and `path` as array value which is required.
+
 ```php
+<?php
+
+namespace App;
+
 use Uploadify\Traits\FileTrait;
 
 class Car extends Eloquent
@@ -74,9 +80,13 @@ class Car extends Eloquent
 
 #### Image Trait
 
-If you need images in Eloquent model, you should use trait `Uploadify\Traits\ImageTrait`:
+If you need to show images in Eloquent model (jpg, png, gif...), you should use `Uploadify\Traits\ImageTrait` trait. You need to define `public $images` property with database field name as key and paths as array values (`path` and `path_thumb`). `path` value is required, but `path_thumb` is not. Use `path_thumb` only if path to thumb images is different then default one (we always use `thumb/` prefix on defined `path` value).
 
 ```php
+<?php
+
+namespace App;
+
 use Uploadify\Traits\ImageTrait;
 
 class User extends Eloquent
@@ -89,8 +99,8 @@ class User extends Eloquent
      * @var array
      */
     public $images = [
-        'upload_cover' => ['path' => 'upload/images/cover/', 'path_thumb' => 'upload/images/cover/thumb'],
-        'upload_avatar' => ['path' => 'upload/images/avatar/', 'path_thumb' => 'upload/images/avatar/thumb'],
+        'upload_cover' => ['path' => 'upload/images/cover/'],
+        'upload_avatar' => ['path' => 'upload/images/avatar/', 'path_thumb' => 'upload/images/avatar-small/'],
     ];
 }
 ```
@@ -100,6 +110,10 @@ class User extends Eloquent
 You can also combine traits in one Eloquent model:
 
 ```php
+<?php
+
+namespace App;
+
 use Uploadify\Traits\FileTrait;
 use Uploadify\Traits\ImageTrait;
 
@@ -123,7 +137,7 @@ class Car extends Eloquent
      * @var array
      */
     public $images = [
-        'upload_cover' => ['path' => 'upload/images/cover/', 'path_thumb' => 'upload/images/cover/thumb'],
+        'upload_cover' => ['path' => 'upload/images/cover/'],
     ];
 }
 ```
