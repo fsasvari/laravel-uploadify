@@ -29,23 +29,13 @@ class FileCast extends BaseCast
     }
 
     /**
-     * Get file extension
-     *
-     * @return string
-     */
-    public function getExtension()
-    {
-        return pathinfo($this->getName(), PATHINFO_EXTENSION);
-    }
-
-    /**
      * Get file size in bytes
      *
      * @return string
      */
     public function getFilesize()
     {
-        return Storage::disk($this->getDisk())->size($this->getName());
+        return Storage::disk($this->getDisk())->size($this->getUrl());
     }
 
     /**
@@ -55,34 +45,6 @@ class FileCast extends BaseCast
      */
     public function getUrl()
     {
-        return $this->getPath().$this->getName();
-    }
-
-    /**
-     * Get path to file
-     *
-     * @return string
-     */
-    protected function getPath()
-    {
-        return $this->settings['path'];
-    }
-
-    /**
-     * Get filesystem disk name
-     *
-     * @return string
-     */
-    protected function getDisk()
-    {
-        if (isset ($this->settings['disk']) && $this->settings['disk']) {
-            return $this->settings['disk'];
-        }
-
-        if (config()->has('uploadify.disk')) {
-            return config()->get('uploadify.disk');
-        }
-
-        return config()->get('uploadify.filesystems.default');
+        return $this->path.$this->getName();
     }
 }

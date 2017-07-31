@@ -12,11 +12,18 @@ abstract class Cast
     protected $name;
 
     /**
-     * List of settings => path, path_thumb, disk...
+     * The path to file
      *
-     * @var array
+     * @var string
      */
-    protected $settings = [];
+    protected $path;
+
+    /**
+     * The filesystems disk name
+     *
+     * @var string
+     */
+    protected $disk;
 
     /**
      * Create new cast instance
@@ -25,9 +32,49 @@ abstract class Cast
      * @param  array  $settings  List of settings => path, path_thumb, disk...
      * @return void
      */
-    public function __construct($name, $settings)
+    public function __construct($name, array $settings = [])
     {
         $this->name = $name;
-        $this->settings = $settings;
+        $this->saveSettings($settings);
+    }
+
+    /**
+     * Save setting values from array
+     *
+     * @param  array  $settings
+     * @return void
+     */
+    protected function saveSettings(array $settings = [])
+    {
+        $this->path = $settings['path'];
+        $this->disk = $settings['disk'];
+    }
+
+    /**
+     * Get file extension
+     *
+     * @return string
+     */
+    public function getExtension()
+    {
+        return pathinfo($this->getName(), PATHINFO_EXTENSION);
+    }
+
+    /**
+     * Get filesystem disk name
+     *
+     * @return string
+     */
+    protected function getDisk()
+    {
+        if ($this->disk) {
+            return $this->disk;
+        }
+
+        if (config()->has('uploadify.disk')) {
+            return config()->get('uploadify.disk');
+        }
+
+        return config()->get('uploadify.filesystems.default');
     }
 }
