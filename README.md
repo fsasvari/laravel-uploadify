@@ -198,3 +198,7 @@ $car->upload_avatar->getUrl(); // upload/images/avatar/user-avatar.jpg
 // get full path to image thumb
 $car->upload_avatar->getUrl(200, 200); // upload/images/avatar/thumb/user-avatar-w200-h200.jpg
 ```
+
+### Upload
+
+$uploadManager = new UploadManager();
