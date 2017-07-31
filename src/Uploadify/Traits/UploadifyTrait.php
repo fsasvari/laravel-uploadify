@@ -54,4 +54,52 @@ trait UploadifyTrait
                 return $value;
         }
     }
+
+    /**
+     * Get the casts array.
+     *
+     * @return array
+     */
+    public function getCasts()
+    {
+        $casts = $this->casts;
+
+        if ($this->getIncrementing()) {
+            $casts = array_merge([$this->getKeyName() => $this->getKeyType()], $casts);
+        }
+
+        if ($this->hasFileCasts()) {
+            foreach (array_keys($this->files) as $key) {
+                $casts = array_merge([$key => 'file'], $casts);
+            }
+        }
+
+        if ($this->hasImageCasts()) {
+            foreach (array_keys($this->images) as $key) {
+                $casts = array_merge([$key => 'image'], $casts);
+            }
+        }
+
+        return $casts;
+    }
+
+    /**
+     * Check if model has file casts
+     *
+     * @return bool
+     */
+    protected function hasFileCasts()
+    {
+        return empty($this->files);
+    }
+
+    /**
+     * Check if model has image casts
+     *
+     * @return bool
+     */
+    protected function hasImageCasts()
+    {
+        return empty($this->images);
+    }
 }
