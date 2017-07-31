@@ -146,3 +146,55 @@ class Car extends Eloquent
 
 ## Usage
 
+### Files
+
+```php
+// To use this package, first we need an instance of our model
+$car = Car::first();
+
+// get full file name with extension
+$cat->upload_specification->getName(); // car-specification.pdf
+
+// get file basename
+$cat->upload_specification->getBasename(); // car-specification
+
+// get file extension
+$cat->upload_specification->getExtension(); // pdf
+
+// get file size in bytes
+$cat->upload_specification->getFilesize(); // 1500000
+
+// get full path to file
+$car->upload_specification->getUrl(); // upload/documents/specification/car-specification.pdf
+```
+
+### Images
+
+```php
+// To use this package, first we need an instance of our model
+$user = User::first();
+
+// get full image name with extension
+$cat->upload_avatar->getName(); // user-avatar.jpg
+
+// get full image thumb name with extension
+$cat->upload_avatar->getName(200, 200); // user-avatar-w200-h200.jpg
+
+// get image basename
+$cat->upload_avatar->getBasename(); // user-avatar
+
+// get image thumb basename
+$cat->upload_avatar->getBasename(200, 200); // user-avatar-w200-h200
+
+// get file extension
+$cat->upload_avatar->getExtension(); // jpg
+
+// get image size in bytes
+$cat->upload_avatar->getFilesize(); // 150000
+
+// get full path to image
+$car->upload_avatar->getUrl(); // upload/images/avatar/user-avatar.jpg
+
+// get full path to image thumb
+$car->upload_avatar->getUrl(200, 200); // upload/images/avatar/thumb/user-avatar-w200-h200.jpg
+```
