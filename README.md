@@ -276,4 +276,5 @@ MIT Licence. Refer to the [LICENSE](https://github.com/fsasvari/laravel-uploadif
 ## Author
 
 Frano Šašvari
+
 Email: sasvari.frano@gmail.com
