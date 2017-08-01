@@ -2,6 +2,8 @@
 
 namespace Uploadify\Casts;
 
+use Illuminate\Support\Facades\Storage;
+
 abstract class Cast
 {
     /**
@@ -68,6 +70,16 @@ abstract class Cast
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * Delete file from filesystem
+     *
+     * @return bool
+     */
+    public function delete()
+    {
+        return Storage::disk($this->getDisk())->delete($this->getUrl());
     }
 
     /**
