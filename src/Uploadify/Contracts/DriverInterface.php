@@ -1,6 +1,6 @@
 <?php
 
-namespace Uploadify\Upload;
+namespace Uploadify\Contracts;
 
 interface DriverInterface
 {

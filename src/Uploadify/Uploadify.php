@@ -1,6 +1,6 @@
 <?php
 
-namespace Uploadify\Upload;
+namespace Uploadify;
 
 use Illuminate\Contracts\Filesystem\Factory as Storage;
 use Illuminate\Http\UploadedFile;
@@ -8,7 +8,7 @@ use Intervention\Image\Image as InterventionImage;
 
 use Uploadify\Exceptions\InvalidDriverException;
 
-class UploadManager
+class Uploadify
 {
     /**
      * The filesystem factory instance
@@ -25,7 +25,7 @@ class UploadManager
     protected $settings = [];
 
     /**
-     * Create new upload manager instance
+     * Create new uploadify instance
      *
      * @param  \Illuminate\Contracts\Filesystem\Factory  $storage
      * @param  array  $settings
@@ -41,7 +41,7 @@ class UploadManager
      * Return driver instance
      *
      * @param  string  $driver
-     * @return \Uploadify\Upload\AbstractDriver|\Uploadify\Upload\DriverInterface
+     * @return \Uploadify\AbstractDriver|\Uploadify\Contracts\DriverInterface
      */
     public function driver($driver)
     {
@@ -53,12 +53,12 @@ class UploadManager
      *
      * @param  string  $driver
      * @throws \Uploadify\Exceptions\InvalidDriverException
-     * @return \Uploadify\Upload\AbstractDriver|\Uploadify\Upload\DriverInterface
+     * @return \Uploadify\AbstractDriver|\Uploadify\Contracts\DriverInterface
      */
     private function createDriver($driver)
     {
         $name = studly_case($driver);
-        $class = '\\Uploadify\\Upload\\Driver\\'.$name;
+        $class = '\\Uploadify\\Driver\\'.$name;
 
         if (! class_exists($class)) {
             throw new InvalidDriverException('Driver "'.$class.'" does not exists!');
@@ -73,7 +73,7 @@ class UploadManager
      *
      * @param  \Illuminate\Http\UploadedFile|\Intervention\Image\Image  $file
      * @throws \Uploadify\Exceptions\InvalidDriverException
-     * @return \Uploadify\Upload\AbstractDriver|\Uploadify\Upload\DriverInterface
+     * @return \Uploadify\AbstractDriver|\Uploadify\Contracts\DriverInterface
      */
     public function setFile($file)
     {

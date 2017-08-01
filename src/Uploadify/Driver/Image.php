@@ -1,9 +1,9 @@
 <?php
 
-namespace Uploadify\Upload\Driver;
+namespace Uploadify\Driver;
 
-use Uploadify\Upload\AbstractDriver;
-use Uploadify\Upload\DriverInterface;
+use Uploadify\AbstractDriver;
+use Uploadify\Contracts\DriverInterface;
 
 use Intervention\Image\Image as InterventionImage;
 

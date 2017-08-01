@@ -1,6 +1,6 @@
 <?php
 
-namespace Uploadify\Upload;
+namespace Uploadify;
 
 use Illuminate\Contracts\Filesystem\Factory as Storage;
 use Illuminate\Http\UploadedFile;
@@ -52,7 +52,7 @@ abstract class AbstractDriver
     /**
      * Create new driver instance
      *
-     * @param  \Uploadify\Upload\Storage  $storage
+     * @param  \Illuminate\Contracts\Filesystem\Factory  $storage
      * @param  array  $settings
      * @return void
      */
