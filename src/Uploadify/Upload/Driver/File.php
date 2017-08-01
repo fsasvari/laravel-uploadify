@@ -12,13 +12,6 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 class File extends AbstractDriver implements DriverInterface
 {
     /**
-     * Driver name
-     *
-     * @var string
-     */
-    protected $driver = 'file';
-
-    /**
      * The uploaded file instance
      *
      * @var \Illuminate\Http\UploadedFile

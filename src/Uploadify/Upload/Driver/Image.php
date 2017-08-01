@@ -12,13 +12,6 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 class Image extends AbstractDriver implements DriverInterface
 {
     /**
-     * Driver name
-     *
-     * @var string
-     */
-    protected $driver = 'image';
-
-    /**
      * The intervention image instance
      *
      * @var \Intervention\Image\Image
