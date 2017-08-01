@@ -5,6 +5,7 @@ namespace Uploadify\Providers;
 use Illuminate\Support\ServiceProvider;
 
 use Illuminate\Contracts\Filesystem\Factory as Storage;
+use Illuminate\Config\Repository as Config;
 use Uploadify\Upload\UploadManager;
 
 class UploadifyServiceProvider extends ServiceProvider
@@ -33,7 +34,9 @@ class UploadifyServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(UploadManager::class, function ($app) {
-            return new UploadManager($app->make(Storage::class));
+            $config = $app->make(Config::class);
+
+            return new UploadManager($app->make(Storage::class), $config->get('uploadify'));
         });
     }
 }
