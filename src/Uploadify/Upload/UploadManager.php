@@ -18,23 +18,23 @@ class UploadManager
     protected $storage;
 
     /**
-     * The list of configuration data
+     * The list of settings
      *
      * @var array
      */
-    protected $config;
+    protected $settings = [];
 
     /**
      * Create new upload manager instance
      *
      * @param  \Illuminate\Contracts\Filesystem\Factory  $storage
-     * @param  array  $config
+     * @param  array  $settings
      * @return void
      */
-    public function __construct(Storage $storage, array $config = [])
+    public function __construct(Storage $storage, array $settings = [])
     {
         $this->storage = $storage;
-        $this->config = $config;
+        $this->settings = $settings;
     }
 
     /**
