@@ -32,7 +32,7 @@ composer update
 
 ### Step 2: Service Provider
 
-After installing the Laravel Trailing Slash library, register the `LaravelTrailingSlash\RoutingServiceProvider` in your `config/app.php` configuration file:
+After installing the Laravel Uploadify library, register the `Uploadify\Providers\UploadifyServiceProvider` in your `config/app.php` configuration file:
 
 ```php
 'providers' => [
@@ -51,22 +51,22 @@ After installing the Laravel Trailing Slash library, register the `LaravelTraili
 
 ### Step 4: Models
 
-There are two types of traits for Eloquent models - `FileTrait` and `ImageTrait`.
+You need to include trait in your Eloquent models - `UploadifyTrait`.
 
-#### File Trait
+#### Files
 
-If you need to show simple files (pdf, doc, zip...) in Eloquent model, you should use `Uploadify\Traits\FileTrait` trait. You need to define `$files` property with database field name as key and `path` as array value which is required.
+If you need to show simple files (pdf, doc, zip...) in Eloquent model, you need to define `$files` property with database field name as key and `path` as array value which is required.
 
 ```php
 <?php
 
 namespace App;
 
-use Uploadify\Traits\FileTrait;
+use Uploadify\Traits\UploadifyTrait;
 
 class Car extends Eloquent
 {
-    use FileTrait;
+    use UploadifyTrait;
 
     /**
      * List of uploadify files
@@ -80,20 +80,20 @@ class Car extends Eloquent
 }
 ```
 
-#### Image Trait
+#### Images
 
-If you need to show images (jpg, png, gif...) in Eloquent model, you should use `Uploadify\Traits\ImageTrait` trait. You need to define `$images` property with database field name as key and paths as array values (`path` and `path_thumb`). `path` value is required, but `path_thumb` is not. Use `path_thumb` only if path to thumb images is different then default one (we always use `thumb/` prefix on defined `path` value).
+If you need to show images (jpg, png, gif...) in Eloquent model, you need to define `$images` property with database field name as key and paths as array values (`path` and `path_thumb`). `path` value is required, but `path_thumb` is not. Use `path_thumb` only if path to thumb images is different then default one (we always use `thumb/` prefix on defined `path` value).
 
 ```php
 <?php
 
 namespace App;
 
-use Uploadify\Traits\ImageTrait;
+use Uploadify\Traits\UploadifyTrait;
 
 class User extends Eloquent
 {
-    use ImageTrait;
+    use UploadifyTrait;
 
     /**
      * List of uploadify images
@@ -107,21 +107,20 @@ class User extends Eloquent
 }
 ```
 
-#### File and Image Traits combined
+#### Files and Images combined
 
-You can also combine traits in one Eloquent model:
+You can also combine files and images in one Eloquent model:
 
 ```php
 <?php
 
 namespace App;
 
-use Uploadify\Traits\FileTrait;
-use Uploadify\Traits\ImageTrait;
+use Uploadify\Traits\UploadifyTrait;
 
 class Car extends Eloquent
 {
-    use FileTrait, ImageTrait;
+    use UploadifyTrait;
 
     /**
      * List of uploadify files
