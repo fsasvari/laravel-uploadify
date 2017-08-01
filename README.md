@@ -226,6 +226,7 @@ $uploadify = Uploadify::create($file, $car, 'upload_specification'); // or set($
 
 // additional options
 $uploadify->setName('custom file name'); // set custom file name
+$uploadify->setPath('path-to-custom-directory/'); // set path to custom upload directory, maybe some temporary directory ?
 
 // upload() method returns uploaded file name with extension (without path), so you can save value in database
 $specificationName = $uploadify->upload(); // need to define field name;
@@ -256,12 +257,24 @@ $uploadify->process($image);
 
 // additional options
 $uploadify->setName('custom image name'); // set custom file name
+$uploadify->setPath('path-to-custom-directory/'); // set path to custom upload directory, maybe some temporary directory ?
 
 // upload() method returns uploaded file name with extension (without path), so you can save value in database
 $avatarName = $uploadify->upload(); // need to define field name;
 
 $user->upload_avatar = $avatarName;
 $user->save();
+```
+
+### Copy file from existing directory
+
+If you want to copy file from existing directory using `Uploadify`, you must use out-of-the-box solution like creating custom UploadedFile instance.
+
+```php
+
+$file = new UploadedFile($path, $name, filesize($path), 'image/png', null, true);
+
+
 ```
 
 ## Example Usage
