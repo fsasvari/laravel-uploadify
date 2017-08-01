@@ -294,7 +294,7 @@ delete() method deletes file from filesystem, and set field value to `null`.
 $car = Car::first();
 
 // deletes file and set field value to "null"
-$car->upload_cover->delete();
+$car->upload_specification->delete();
 
 // deletes only file, leaves field value intact
 $car->upload_specification->delete(false);
