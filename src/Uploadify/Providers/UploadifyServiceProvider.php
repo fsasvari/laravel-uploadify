@@ -19,7 +19,7 @@ class UploadifyServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__.'/../../config/uploadify.php' => config_path('uploadify.php'),
-        ]);
+        ], 'uploadify');
     }
 
     /**
