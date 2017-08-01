@@ -223,7 +223,7 @@ $file = $request->file('specification');
 // upload() method returns uploaded file name with extension (without path)
 $specificationName = Uploadify::setFile($file)
     ->setModel($car) // or ->setModel(new Car)
-    ->upload('upload_specification');
+    ->upload('upload_specification') // need to define field name;
 
 $car->upload_specification = $specificationName;
 $car->save();
@@ -244,7 +244,7 @@ $image = Image::make($request->file('avatar'))->resize(800, null, function ($con
 // upload() method returns uploaded file name with extension (without path)
 $avatarName = Uploadify::setFile($image)
     ->setModel($user) // or ->setModel(new User)
-    ->upload('upload_avatar');
+    ->upload('upload_avatar') // need to define field name;
 
 $user->upload_avatar = $avatarName;
 $user->save();
