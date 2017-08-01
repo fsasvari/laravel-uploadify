@@ -215,15 +215,20 @@ $car->upload_avatar->getUrl(200, 200); // upload/images/avatar/thumb/user-avatar
 Upload example with usage of Laravel UploadedFile class received by Request instance.
 
 ```php
+// create new eloquent model object
 $car = new Car();
 
-// Illuminate\Http\Request
+// get UploadedFile from request Illuminate\Http\Request
 $file = $request->file('specification');
 
-// upload() method returns uploaded file name with extension (without path)
-$specificationName = Uploadify::setFile($file)
-    ->setModel($car) // or ->setModel(new Car)
-    ->upload('upload_specification') // need to define field name;
+// create new uploadify instance, set file, model and field name
+$uploadify = Uploadify::create($file, $car, 'upload_specification'); // or set($file, new Car, 'upload_specification')
+
+// additional options
+$uploadify->setName('custom file name'); // set custom file name
+
+// upload() method returns uploaded file name with extension (without path), so you can save value in database
+$specificationName = $uploadify->upload(); // need to define field name;
 
 $car->upload_specification = $specificationName;
 $car->save();
@@ -236,15 +241,24 @@ Upload example with usage of [Intervention Image](http://image.intervention.io/)
 ```php
 $user = new User;
 
-$image = Image::make($request->file('avatar'))->resize(800, null, function ($constraint) {
+$file = $request->file('avatar');
+
+// create new uploadify instance, set file, model and field name
+$uploadify = Uploadify::create($file, $user, 'upload_avatar'); // or set($image, new User, 'upload_avatar')
+
+// if you want additional image manipulation from Intervention Image package
+$image = Image::make($file)->resize(800, null, function ($constraint) {
     $constraint->aspectRatio();
     $constraint->upsize();
 });
 
-// upload() method returns uploaded file name with extension (without path)
-$avatarName = Uploadify::setFile($image)
-    ->setModel($user) // or ->setModel(new User)
-    ->upload('upload_avatar') // need to define field name;
+$uploadify->process($image);
+
+// additional options
+$uploadify->setName('custom image name'); // set custom file name
+
+// upload() method returns uploaded file name with extension (without path), so you can save value in database
+$avatarName = $uploadify->upload(); // need to define field name;
 
 $user->upload_avatar = $avatarName;
 $user->save();
