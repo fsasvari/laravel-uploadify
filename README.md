@@ -164,7 +164,7 @@ $cat->upload_specification->getExtension(); // pdf
 // get file size in bytes
 $cat->upload_specification->getFilesize(); // 1500000
 
-// get full path to file
+// get full url path to file
 $car->upload_specification->getUrl(); // upload/documents/specification/car-specification.pdf
 ```
 
@@ -192,14 +192,16 @@ $cat->upload_avatar->getExtension(); // jpg
 // get image size in bytes
 $cat->upload_avatar->getFilesize(); // 150000
 
-// get full path to image
+// get full url path to image
 $car->upload_avatar->getUrl(); // upload/images/avatar/user-avatar.jpg
 
-// get full path to image thumb
+// get full url path to image thumb
 $car->upload_avatar->getUrl(200, 200); // upload/images/avatar/thumb/user-avatar-w200-h200.jpg
 ```
 
-### Upload
+### Upload with UploadedFile
+
+
 
 ```php
 // Illuminate\Http\Request
@@ -252,10 +254,26 @@ class CarController
                      width='400' height='300'
                      class='img-thumbnail img-fluid'>
             </p>
-
-            <h2>{{ $car->name }}</h2>
+            <h2><a href='{{ $car->url }}'>{{ $car->name }}</a></h2>
             <p>{{ str_limit($car->description, 200) }}</p>
+            <p>
+                <a href='{{ $car->upload_specification->getUrl() }}'>
+                    <i class='fa fa-archive'></i>
+                    {{ $car->upload_specification->getName() }}
+                </a>
+                <br>
+                <span class='text-muted'>{{ $car->upload_specification->getFilesize() }} bytes</span>
+            </p>
         </div>
     @endforeach
 </div>
 ```
+
+## Licence
+
+MIT Licence. Refer to the [LICENSE](https://github.com/fsasvari/laravel-uploadify/blob/master/LICENSE.md) file to get more info.
+
+## Author
+
+Frano Šašvari
+Email: sasvari.frano@gmail.com
