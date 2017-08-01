@@ -240,12 +240,13 @@ $car->save();
 Upload example with usage of [Intervention Image](http://image.intervention.io/) class created by user. First, you create Image instance with all image manipulations you want (resize, crop, rotate, grayscale...) and then inject that image instance in UploadManager.
 
 ```php
+// create new eloquent model object
 $user = new User;
 
 $file = $request->file('avatar');
 
 // create new uploadify instance, set file, model and field name
-$uploadify = Uploadify::create($file, $user, 'upload_avatar'); // or set($image, new User, 'upload_avatar')
+$uploadify = Uploadify::create($file, $user, 'upload_avatar'); // or set($image, new User, 'upload_avatar');
 
 // if you want additional image manipulation from Intervention Image package
 $image = Image::make($file)->resize(800, null, function ($constraint) {
@@ -271,10 +272,35 @@ $user->save();
 If you want to copy file from existing directory using `Uploadify`, you must use out-of-the-box solution like creating custom UploadedFile instance.
 
 ```php
+use Illuminate\Http\UploadedFile;
 
-$file = new UploadedFile($path, $name, filesize($path), 'image/png', null, true);
+$name = 'custom-image.jpg';
+$path = storage_path('path-to-directory/custom-image.jpg');
 
+$file = new UploadedFile($path, $name, 'image/jpeg', filesize($path), null, true);
 
+// create new eloquent model object
+$user = new User;
+
+// create new uploadify instance, set file, model and field name
+$uploadify = Uploadify::create($file, $user, 'upload_avatar'); // or set($image, new User, 'upload_avatar');
+```
+
+### Delete
+
+delete() method deletes file from filesystem, and set field value to `null`.
+
+```php
+$car = Car::first();
+
+// deletes file and set field value to "null"
+$car->upload_cover->delete();
+
+// deletes only file, leaves field value intact
+$car->upload_specification->delete(false);
+
+// you need to manually set field value to "null"
+$car->upload_specification = null;
 ```
 
 ## Example Usage
