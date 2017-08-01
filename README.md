@@ -47,7 +47,11 @@ After installing the Laravel Uploadify library, register the `Uploadify\Provider
 
 ### Step 3: Configuration
 
+We need copy the configuration file to our project.
 
+```
+php artisan vendor:publish --tag=uploadify
+```
 
 ### Step 4: Models
 
@@ -200,18 +204,42 @@ $car->upload_avatar->getUrl(200, 200); // upload/images/avatar/thumb/user-avatar
 
 ### Upload with UploadedFile
 
-
+Upload example with usage of Laravel UploadedFile class received by Request instance.
 
 ```php
 // Illuminate\Http\Request
-$file = $request->file('avatar');
+$car = new Car();
 
-$avatar = $uploadManager
+$file = $request->file('specification');
+
+// upload() method returns uploaded file name with extension (without path)
+$specificationName = $uploadManager
     ->setFile($file)
+    ->setModel($car) // or ->setModel(new Car)
     ->upload();
 
-$user = new User();
-$user->upload_avatar = $avatar;
+$car->upload_specification = $specificationName;
+$car->save();
+```
+
+### Upload with InterventionImage
+
+Upload example with usage of [Intervention Image](http://image.intervention.io/) class created by user.
+
+```php
+$user = new User;
+
+$image = $imageManager->make($request->file('avatar'))->resize(800, null, function ($constraint) {
+    $constraint->aspectRatio();
+    $constraint->upsize();
+});
+
+$avatarName = $uploadManager
+    ->setFile($image)
+    ->setModel($user) // or ->setModel(new User)
+    ->upload();
+
+$user->upload_avatar = $avatarName;
 $user->save();
 ```
 
