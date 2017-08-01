@@ -11,6 +11,9 @@
         }
     ],
     "require": {
+        "illuminate/support": "5.4.*",
+        "illuminate/http": "5.4.*",
+        "illuminate/filesystem": "5.4.*",
         "intervention/image": "2.4.*"
     },
     "require-dev": {
