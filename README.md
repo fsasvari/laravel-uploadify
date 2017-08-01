@@ -288,18 +288,15 @@ $uploadify = Uploadify::create($file, $user, 'upload_avatar'); // or set($image,
 
 ### Delete
 
-delete() method deletes file from filesystem, and set field value to `null`.
+delete() method deletes file from filesystem
 
 ```php
 $car = Car::first();
 
-// deletes file and set field value to "null"
+// deletes file
 $car->upload_specification->delete();
 
-// deletes only file, leaves field value intact
-$car->upload_specification->delete(false);
-
-// you need to manually set field value to "null"
+// you need to manually set field value to "null" after deletion
 $car->upload_specification = null;
 ```
 
