@@ -51,7 +51,7 @@ After installing the Laravel Uploadify library, register the `Uploadify\Provider
 
 ### Step 4: Models
 
-You need to include trait in your Eloquent models - `UploadifyTrait`.
+You need to include `UploadifyTrait` trait in your Eloquent models.
 
 #### Files
 
@@ -212,7 +212,6 @@ $avatar = $uploadManager
 
 $user = new User();
 $user->upload_avatar = $avatar;
-// $user->...
 $user->save();
 ```
 
