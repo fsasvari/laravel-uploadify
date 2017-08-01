@@ -30,7 +30,7 @@ And then run composer update:
 composer update
 ```
 
-### Step 2: Service Provider
+### Step 2: Service Provider and Facade
 
 After installing the Laravel Uploadify library, register the `Uploadify\Providers\UploadifyServiceProvider` in your `config/app.php` configuration file:
 
@@ -43,6 +43,14 @@ After installing the Laravel Uploadify library, register the `Uploadify\Provider
     Uploadify\Providers\UploadifyServiceProvider::class,
     // ...
 ],
+```
+
+Optionally, you can add alias to `Uploadify` facade:
+
+```php
+'aliases' => [
+    'Uploadify' => Uploadify\Facades\Uploadify::class,
+];
 ```
 
 ### Step 3: Configuration
