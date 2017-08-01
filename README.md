@@ -242,17 +242,20 @@ class CarController
 ```
 
 ### View
-```php
+```html
 <div class='row'>
-    <?php foreach ($cars as $car): ?>
+    @foreach ($cars as $car)
         <div class='col-12 col-sm-6 col-md-4'>
             <p>
-                <img src='<?php echo $car->upload_cover->getUrl(400, 300); ?>'
-                     alt='<?php echo $car->name; ?>' title='<?php echo $car->name; ?>'
+                <img src='{{ $car->upload_cover->getUrl(400, 300) }}'
+                     alt='{{ $car->name }}' title='{{ $car->name }}'
                      width='400' height='300'
                      class='img-thumbnail img-fluid'>
             </p>
+
+            <h2>{{ $car->name }}</h2>
+            <p>{{ str_limit($car->description, 200) }}</p>
         </div>
-    <?php endforeach; ?>
+    @endforeach
 </div>
 ```
