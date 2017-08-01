@@ -18,32 +18,32 @@ class UploadManager
     protected $storage;
 
     /**
-     * Default driver
+     * The list of configuration data
      *
-     * @var string
+     * @var array
      */
-    protected $driver;
+    protected $config;
 
     /**
      * Create new upload manager instance
      *
      * @param  \Illuminate\Contracts\Filesystem\Factory  $storage
-     * @param  string  $driver
+     * @param  array  $config
      * @return void
      */
-    public function __construct(Storage $storage, $driver)
+    public function __construct(Storage $storage, array $config = [])
     {
         $this->storage = $storage;
-        $this->driver = $driver;
+        $this->config = $config;
     }
 
     /**
      * Return driver instance
      *
-     * @param  string|null  $driver
+     * @param  string  $driver
      * @return \Uploadify\Upload\AbstractDriver|\Uploadify\Upload\DriverInterface
      */
-    public function driver($driver = null)
+    public function driver($driver)
     {
         return $this->createDriver($driver);
     }
@@ -51,13 +51,13 @@ class UploadManager
     /**
      * Create new driver instance
      *
-     * @param  string|null  $driver
+     * @param  string  $driver
      * @throws \Uploadify\Exceptions\InvalidDriverException
      * @return \Uploadify\Upload\AbstractDriver|\Uploadify\Upload\DriverInterface
      */
-    private function createDriver($driver = null)
+    private function createDriver($driver)
     {
-        $name = studly_case($driver ? $driver : $this->driver);
+        $name = studly_case($driver);
         $class = '\\Uploadify\\Upload\\Driver\\'.$name;
 
         if (! class_exists($class)) {
@@ -70,7 +70,9 @@ class UploadManager
     /**
      * Set file source and create new driver instance
      *
-     * @param  mixed  $file
+     *
+     * @param  \Illuminate\Http\UploadedFile|\Intervention\Image\Image  $file
+     * @throws \Uploadify\Exceptions\InvalidDriverException
      * @return \Uploadify\Upload\AbstractDriver|\Uploadify\Upload\DriverInterface
      */
     public function setFile($file)
@@ -83,6 +85,6 @@ class UploadManager
             return $this->driver('image')->setFile($file);
         }
 
-        return $this->driver()->setFile($file);
+        throw new InvalidDriverException('Driver "'.get_class($file).'" does not exists!');
     }
 }
