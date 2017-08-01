@@ -207,9 +207,9 @@ $car->upload_avatar->getUrl(200, 200); // upload/images/avatar/thumb/user-avatar
 Upload example with usage of Laravel UploadedFile class received by Request instance.
 
 ```php
-// Illuminate\Http\Request
 $car = new Car();
 
+// Illuminate\Http\Request
 $file = $request->file('specification');
 
 // upload() method returns uploaded file name with extension (without path)
@@ -224,16 +224,17 @@ $car->save();
 
 ### Upload with InterventionImage
 
-Upload example with usage of [Intervention Image](http://image.intervention.io/) class created by user.
+Upload example with usage of [Intervention Image](http://image.intervention.io/) class created by user. First, you create Image instance with all image manipulations you want (resize, crop, rotate, grayscale...) and then inject that image instance in UploadManager.
 
 ```php
 $user = new User;
 
-$image = $imageManager->make($request->file('avatar'))->resize(800, null, function ($constraint) {
+$image = Image::make($request->file('avatar'))->resize(800, null, function ($constraint) {
     $constraint->aspectRatio();
     $constraint->upsize();
 });
 
+// upload() method returns uploaded file name with extension (without path)
 $avatarName = $uploadManager
     ->setFile($image)
     ->setModel($user) // or ->setModel(new User)
