@@ -61,6 +61,16 @@ abstract class Cast
     }
 
     /**
+     * Get path
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
      * Get filesystem disk name
      *
      * @return string

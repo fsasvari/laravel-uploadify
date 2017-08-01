@@ -78,10 +78,20 @@ class ImageCast extends BaseCast
     public function getUrl($width = null, $height = null)
     {
         if ($width && $height) {
-            $this->pathThumb.$this->getName($width, $height);
+            $this->getPathThumb().$this->getName($width, $height);
         }
 
-        return $this->path.$this->getName();
+        return $this->getPath().$this->getName();
+    }
+
+    /**
+     * Get thumb path
+     *
+     * @return string
+     */
+    public function getPathThumb()
+    {
+        return $this->pathThumb;
     }
 
     /**

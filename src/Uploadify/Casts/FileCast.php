@@ -45,6 +45,6 @@ class FileCast extends BaseCast
      */
     public function getUrl()
     {
-        return $this->path.$this->getName();
+        return $this->getPath().$this->getName();
     }
 }
