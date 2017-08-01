@@ -15,11 +15,11 @@ abstract class AbstractDriver
     protected $storage;
 
     /**
-     * Driver name
+     * The list of settings
      *
-     * @var string
+     * @var array
      */
-    protected $driver;
+    protected $settings = [];
 
     /**
      * File instance
@@ -53,11 +53,13 @@ abstract class AbstractDriver
      * Create new driver instance
      *
      * @param  \Uploadify\Upload\Storage  $storage
+     * @param  array  $settings
      * @return void
      */
-    public function __construct(Storage $storage)
+    public function __construct(Storage $storage, array $settings = [])
     {
         $this->storage = $storage;
+        $this->settings = $settings;
     }
 
     /**
