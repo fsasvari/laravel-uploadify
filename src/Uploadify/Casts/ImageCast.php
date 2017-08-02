@@ -22,9 +22,24 @@ class ImageCast extends BaseCast
      */
     protected function saveSettings(array $settings = [])
     {
-        $this->path = $settings['path'];
-        $this->pathThumb = $settings['path_thumb'];
-        $this->disk = $settings['disk'];
+        parent::saveSettings($settings);
+
+        $this->setPathThumb(isset($settings['path_thumb']) ? $settings['path_thumb'] : null);
+    }
+
+    /**
+     * Set thumbnail path
+     *
+     * @param  string|null  $pathThumb
+     * @return void
+     */
+    protected function setPathThumb($pathThumb = null)
+    {
+        if ($pathThumb) {
+            $this->pathThumb = $pathThumb;
+        } else {
+            $this->pathThumb = $this->path.Config::get('uploadify.path_thumb_suffix');
+        }
     }
 
     /**
