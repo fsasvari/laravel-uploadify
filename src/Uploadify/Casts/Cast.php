@@ -89,7 +89,7 @@ abstract class Cast
      */
     public function filesize()
     {
-        return $this->getStorage()->size($this->getUrl());
+        return $this->getStorage()->size($this->url());
     }
 
     /**
@@ -109,7 +109,7 @@ abstract class Cast
      */
     public function delete()
     {
-        return $this->getStorage()->delete($this->getUrl());
+        return $this->getStorage()->delete($this->url());
     }
 
     /**
