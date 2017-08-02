@@ -164,19 +164,19 @@ class Car extends Eloquent
 $car = Car::first();
 
 // get full file name with extension
-$cat->upload_specification->getName(); // car-specification.pdf
+$cat->upload_specification->name(); // car-specification.pdf
 
 // get file basename
-$cat->upload_specification->getBasename(); // car-specification
+$cat->upload_specification->basename(); // car-specification
 
 // get file extension
-$cat->upload_specification->getExtension(); // pdf
+$cat->upload_specification->extension(); // pdf
 
 // get file size in bytes
-$cat->upload_specification->getFilesize(); // 1500000
+$cat->upload_specification->filesize(); // 1500000
 
 // get full url path to file
-$car->upload_specification->getUrl(); // documents/specification/car-specification.pdf
+$car->upload_specification->url(); // documents/specification/car-specification.pdf
 ```
 
 ### Images
@@ -186,28 +186,28 @@ $car->upload_specification->getUrl(); // documents/specification/car-specificati
 $user = User::first();
 
 // get full image name with extension
-$cat->upload_avatar->getName(); // user-avatar.jpg
+$cat->upload_avatar->name(); // user-avatar.jpg
 
 // get full image thumb name with extension
-$cat->upload_avatar->getName(200, 200); // user-avatar-w200-h200.jpg
+$cat->upload_avatar->name(200, 200); // user-avatar-w200-h200.jpg
 
 // get image basename
-$cat->upload_avatar->getBasename(); // user-avatar
+$cat->upload_avatar->basename(); // user-avatar
 
 // get image thumb basename
-$cat->upload_avatar->getBasename(200, 200); // user-avatar-w200-h200
+$cat->upload_avatar->basename(200, 200); // user-avatar-w200-h200
 
 // get file extension
-$cat->upload_avatar->getExtension(); // jpg
+$cat->upload_avatar->extension(); // jpg
 
 // get image size in bytes
-$cat->upload_avatar->getFilesize(); // 150000
+$cat->upload_avatar->filesize(); // 150000
 
 // get full url path to image
-$car->upload_avatar->getUrl(); // images/avatar/user-avatar.jpg
+$car->upload_avatar->url(); // images/avatar/user-avatar.jpg
 
 // get full url path to image thumb
-$car->upload_avatar->getUrl(200, 200); // images/avatar/thumb/user-avatar-w200-h200.jpg
+$car->upload_avatar->url(200, 200); // images/avatar/thumb/user-avatar-w200-h200.jpg
 ```
 
 ### Upload with UploadedFile
@@ -331,22 +331,26 @@ class CarController
 <div class='row'>
     @foreach ($cars as $car)
         <div class='col-12 col-sm-6 col-md-4'>
-            <p>
-                <img src='{{ $car->upload_cover->getUrl(400, 300) }}'
-                     alt='{{ $car->name }}' title='{{ $car->name }}'
-                     width='400' height='300'
-                     class='img-thumbnail img-fluid'>
-            </p>
+            @if ($car->upload_cover)
+                <p>
+                    <img src='{{ $car->upload_cover->url(400, 300) }}'
+                         alt='{{ $car->name }}' title='{{ $car->name }}'
+                         width='400' height='300'
+                         class='img-thumbnail img-fluid'>
+                </p>
+            @endif
             <h2><a href='{{ $car->url }}'>{{ $car->name }}</a></h2>
             <p>{{ str_limit($car->description, 200) }}</p>
-            <p>
-                <a href='{{ $car->upload_specification->getUrl() }}'>
-                    <i class='fa fa-archive'></i>
-                    {{ $car->upload_specification->getName() }}
-                </a>
-                <br>
-                <span class='text-muted'>{{ $car->upload_specification->getFilesize() }} bytes</span>
-            </p>
+            @if ($car->upload_specification)
+                <p>
+                    <a href='{{ $car->upload_specification->url() }}'>
+                        <i class='fa fa-archive'></i>
+                        {{ $car->upload_specification->name() }}
+                    </a>
+                    <br>
+                    <span class='text-muted'>{{ $car->upload_specification->filesize() }} bytes</span>
+                </p>
+            @endif
         </div>
     @endforeach
 </div>
