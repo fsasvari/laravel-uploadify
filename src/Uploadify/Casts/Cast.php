@@ -29,20 +29,6 @@ abstract class Cast
     protected $disk;
 
     /**
-     * The attributes that should be mutated to uploadify files.
-     *
-     * @var array
-     */
-    protected $files = [];
-
-    /**
-     * The attributes that should be mutated to uploadify images.
-     *
-     * @var array
-     */
-    protected $images = [];
-
-    /**
      * Create new cast instance
      *
      * @param  string  $name  The full file name with extension
