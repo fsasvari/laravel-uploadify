@@ -61,13 +61,33 @@ We need copy the configuration file to our project.
 php artisan vendor:publish --tag=uploadify
 ```
 
-### Step 4: Models
+### Step 4: Symbolic link
+
+If you have not yet created symbolic link in project, we need to create link between `public` and `storage` directories. We can use built in Laravel function `storage:link` which will create link between `public/storage` and `storage/app/storage` directories.
+
+```
+php artisan storage:link
+```
+
+Or use Windows function for custom storage link:
+
+```
+mklink /d "c:\path-to-project\project-name\public\custom-directory-name" "c:\path-to-project\project-name\storage\app\custom-directory-name" // custom-directory-name could be "storage", "upload"...
+```
+
+Or use Unix function for custom storage link:
+
+```
+ln -s /path-to-project/project-name/storage/app/custom-directory-name /path-to-project/project-name/public/custom-directory-name // custom-directory-name could be "storage", "upload"...
+```
+
+### Step 5: Models
 
 You need to include `UploadifyTrait` trait in your Eloquent models.
 
 #### Files
 
-If you need to show simple files (pdf, doc, zip...) in Eloquent model, you need to define `$files` property with database field name as key and `path` as array value which is required.
+If you need to show simple files (pdf, doc, zip...) in Eloquent model, you need to define `$files` property with database field name as key and `path` as array value which is required. Also, `disk` value is optional and it will be taken from default disk value from configuration.
 
 ```php
 <?php
@@ -85,7 +105,7 @@ class Car extends Eloquent
      *
      * @var array
      */
-    public $files = [
+    protected $files = [
         'upload_information' => ['path' => 'documents/information/'],
         'upload_specification' => ['path' => 'documents/specification/'],
     ];
@@ -94,7 +114,7 @@ class Car extends Eloquent
 
 #### Images
 
-If you need to show images (jpg, png, gif...) in Eloquent model, you need to define `$images` property with database field name as key and paths as array values (`path` and `path_thumb`). `path` value is required, but `path_thumb` is not. Use `path_thumb` only if path to thumb images is different then default one (we always use `thumb/` prefix on defined `path` value).
+If you need to show images (jpg, png, gif...) in Eloquent model, you need to define `$images` property with database field name as key and paths as array values (`path` and `path_thumb`). `path` value is required, but `path_thumb` is not. Use `path_thumb` only if path to thumb images is different then default one (we always use `thumb/` prefix on defined `path` value). Also, `disk` value is optional and it will be taken from default disk value from configuration.
 
 ```php
 <?php
@@ -112,7 +132,7 @@ class User extends Eloquent
      *
      * @var array
      */
-    public $images = [
+    protected $images = [
         'upload_cover' => ['path' => 'images/cover/'],
         'upload_avatar' => ['path' => 'images/avatar/', 'path_thumb' => 'images/avatar-small/'],
     ];
@@ -121,7 +141,7 @@ class User extends Eloquent
 
 #### Files and Images combined
 
-You can also combine files and images in one Eloquent model:
+You can also combine files and images into one Eloquent model:
 
 ```php
 <?php
@@ -139,7 +159,7 @@ class Car extends Eloquent
      *
      * @var array
      */
-    public $files = [
+    protected $files = [
         'upload_information' => ['path' => 'documents/information/'],
         'upload_specification' => ['path' => 'documents/specification/'],
     ];
@@ -149,7 +169,7 @@ class Car extends Eloquent
      *
      * @var array
      */
-    public $images = [
+    protected $images = [
         'upload_cover' => ['path' => 'images/cover/'],
     ];
 }
