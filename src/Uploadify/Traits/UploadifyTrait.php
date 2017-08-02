@@ -8,20 +8,6 @@ use Uploadify\Casts\ImageCast;
 trait UploadifyTrait
 {
     /**
-     * The attributes that should be mutated to uploadify files.
-     *
-     * @var array
-     */
-    protected $files = [];
-
-    /**
-     * The attributes that should be mutated to uploadify images.
-     *
-     * @var array
-     */
-    protected $images = [];
-
-    /**
      * Cast an attribute to a native PHP type.
      *
      * @param  string  $key
