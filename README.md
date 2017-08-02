@@ -196,7 +196,9 @@ $cat->upload_specification->extension(); // pdf
 $cat->upload_specification->filesize(); // 1500000
 
 // get full url path to file
-$car->upload_specification->url(); // storage/documents/specification/car-specification.pdf or http://www.website.com/storage/documents/specification/car-specification.pdf if "url" value provided in disk url in "config/filesystems.php".
+$car->upload_specification->url(); // storage/documents/specification/car-specification.pdf or
+                                   // http://www.website.com/storage/documents/specification/car-specification.pdf
+                                   // if "url" value provided in disk url in "config/filesystems.php"
 ```
 
 ### Images
@@ -224,10 +226,14 @@ $cat->upload_avatar->extension(); // jpg
 $cat->upload_avatar->filesize(); // 150000
 
 // get full url path to image
-$car->upload_avatar->url(); // storage/images/avatar/user-avatar.jpg or http://www.website.com/storage/images/avatar/user-avatar.jpg if "url" value provided in disk url in "config/filesystems.php".
+$car->upload_avatar->url(); // storage/images/avatar/user-avatar.jpg or
+                            // http://www.website.com/storage/images/avatar/user-avatar.jpg
+                            // if "url" value provided in disk url in "config/filesystems.php"
 
 // get full url path to image thumb
-$car->upload_avatar->url(200, 200); // storage/images/avatar/thumb/user-avatar-w200-h200.jpg or http://www.website.com/storage/images/avatar/user-avatar-w200-h200.jpg if "url" value provided in disk url in "config/filesystems.php".
+$car->upload_avatar->url(200, 200); // storage/images/avatar/thumb/user-avatar-w200-h200.jpg or
+                                    // http://www.website.com/storage/images/avatar/user-avatar-w200-h200.jpg
+                                    // if "url" value provided in disk url in "config/filesystems.php"
 ```
 
 ### Upload with UploadedFile
