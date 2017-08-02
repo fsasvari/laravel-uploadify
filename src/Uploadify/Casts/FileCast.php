@@ -4,8 +4,6 @@ namespace Uploadify\Casts;
 
 use Uploadify\Casts\Cast as BaseCast;
 
-use Illuminate\Support\Facades\Storage;
-
 class FileCast extends BaseCast
 {
     /**
@@ -29,22 +27,12 @@ class FileCast extends BaseCast
     }
 
     /**
-     * Get file size in bytes
-     *
-     * @return string
-     */
-    public function getFilesize()
-    {
-        return Storage::disk($this->getDisk())->size($this->getUrl());
-    }
-
-    /**
-     * Get full path to file
+     * Get full url to file
      *
      * @return string
      */
     public function getUrl()
     {
-        return $this->getPath().$this->getName();
+        return $this->getStorage()->url($this->getPath().$this->getName());
     }
 }
