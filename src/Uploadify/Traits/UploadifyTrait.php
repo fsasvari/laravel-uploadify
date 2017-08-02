@@ -47,9 +47,13 @@ trait UploadifyTrait
             case 'timestamp':
                 return $this->asTimestamp($value);
             case 'file':
-                return new FileCast($value, $this->files[$key]);
+                if ($value) {
+                    return new FileCast($value, $this->files[$key]);
+                }
             case 'image':
-                return new ImageCast($value, $this->images[$key]);
+                if ($value) {
+                    return new ImageCast($value, $this->images[$key]);
+                }
             default:
                 return $value;
         }
