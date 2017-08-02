@@ -79,7 +79,7 @@ abstract class Cast
      */
     public function extension()
     {
-        return pathinfo($this->getName(), PATHINFO_EXTENSION);
+        return pathinfo($this->name(), PATHINFO_EXTENSION);
     }
 
     /**
