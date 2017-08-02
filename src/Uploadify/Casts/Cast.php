@@ -2,6 +2,7 @@
 
 namespace Uploadify\Casts;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
 abstract class Cast
@@ -63,6 +64,16 @@ abstract class Cast
     }
 
     /**
+     * Get file size in bytes
+     *
+     * @return string
+     */
+    public function getFilesize()
+    {
+        return $this->getStorage()->size($this->getUrl());
+    }
+
+    /**
      * Get path
      *
      * @return string
@@ -79,7 +90,17 @@ abstract class Cast
      */
     public function delete()
     {
-        return Storage::disk($this->getDisk())->delete($this->getUrl());
+        return $this->getStorage()->delete($this->getUrl());
+    }
+
+    /**
+     * Get filesystems storage
+     *
+     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     */
+    protected function getStorage()
+    {
+        return Storage::disk($this->getDisk());
     }
 
     /**
@@ -93,10 +114,10 @@ abstract class Cast
             return $this->disk;
         }
 
-        if (config()->has('uploadify.disk')) {
-            return config()->get('uploadify.disk');
+        if (Config::has('uploadify.disk')) {
+            return Config::get('uploadify.disk');
         }
 
-        return config()->get('uploadify.filesystems.default');
+        return Config::get('uploadify.filesystems.default');
     }
 }
