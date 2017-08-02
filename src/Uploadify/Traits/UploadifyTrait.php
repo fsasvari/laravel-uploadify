@@ -90,7 +90,7 @@ trait UploadifyTrait
      */
     protected function hasFileCasts()
     {
-        return empty($this->files);
+        return ! empty($this->files);
     }
 
     /**
@@ -100,6 +100,6 @@ trait UploadifyTrait
      */
     protected function hasImageCasts()
     {
-        return empty($this->images);
+        return ! empty($this->images);
     }
 }
