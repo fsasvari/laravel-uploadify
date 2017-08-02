@@ -71,7 +71,7 @@ class ImageCast extends BaseCast
             return $this->prepareNameThumb(pathinfo($this->name(), PATHINFO_FILENAME), $width, $height);
         }
 
-        return pathinfo($this->getName(), PATHINFO_FILENAME);
+        return pathinfo($this->name(), PATHINFO_FILENAME);
     }
 
     /**
@@ -94,10 +94,10 @@ class ImageCast extends BaseCast
     public function url($width = null, $height = null)
     {
         if ($width && $height) {
-            return $this->getStorage()->url($this->getPathThumb().$this->getName($width, $height));
+            return $this->getStorage()->url($this->pathThumb().$this->name($width, $height));
         }
 
-        return $this->getStorage()->url($this->getPath().$this->getName());
+        return $this->getStorage()->url($this->path().$this->name());
     }
 
     /**
