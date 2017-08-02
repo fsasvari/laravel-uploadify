@@ -52,7 +52,7 @@ class ImageCast extends BaseCast
     public function getName($width = null, $height = null)
     {
         if ($width && $height) {
-            return $this->getBasenameWithDimensions($width, $height).$this->getExtension();
+            return $this->getBasename($width, $height).$this->getExtension();
         }
 
         return $this->name;
