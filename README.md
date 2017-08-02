@@ -86,8 +86,8 @@ class Car extends Eloquent
      * @var array
      */
     public $files = [
-        'upload_information' => ['path' => 'upload/documents/information/'],
-        'upload_specification' => ['path' => 'upload/documents/specification/'],
+        'upload_information' => ['path' => 'documents/information/'],
+        'upload_specification' => ['path' => 'documents/specification/'],
     ];
 }
 ```
@@ -113,8 +113,8 @@ class User extends Eloquent
      * @var array
      */
     public $images = [
-        'upload_cover' => ['path' => 'upload/images/cover/'],
-        'upload_avatar' => ['path' => 'upload/images/avatar/', 'path_thumb' => 'upload/images/avatar-small/'],
+        'upload_cover' => ['path' => 'images/cover/'],
+        'upload_avatar' => ['path' => 'images/avatar/', 'path_thumb' => 'images/avatar-small/'],
     ];
 }
 ```
@@ -140,8 +140,8 @@ class Car extends Eloquent
      * @var array
      */
     public $files = [
-        'upload_information' => ['path' => 'upload/documents/information/'],
-        'upload_specification' => ['path' => 'upload/documents/specification/'],
+        'upload_information' => ['path' => 'documents/information/'],
+        'upload_specification' => ['path' => 'documents/specification/'],
     ];
 
     /**
@@ -150,7 +150,7 @@ class Car extends Eloquent
      * @var array
      */
     public $images = [
-        'upload_cover' => ['path' => 'upload/images/cover/'],
+        'upload_cover' => ['path' => 'images/cover/'],
     ];
 }
 ```
@@ -176,7 +176,7 @@ $cat->upload_specification->getExtension(); // pdf
 $cat->upload_specification->getFilesize(); // 1500000
 
 // get full url path to file
-$car->upload_specification->getUrl(); // upload/documents/specification/car-specification.pdf
+$car->upload_specification->getUrl(); // documents/specification/car-specification.pdf
 ```
 
 ### Images
@@ -204,10 +204,10 @@ $cat->upload_avatar->getExtension(); // jpg
 $cat->upload_avatar->getFilesize(); // 150000
 
 // get full url path to image
-$car->upload_avatar->getUrl(); // upload/images/avatar/user-avatar.jpg
+$car->upload_avatar->getUrl(); // images/avatar/user-avatar.jpg
 
 // get full url path to image thumb
-$car->upload_avatar->getUrl(200, 200); // upload/images/avatar/thumb/user-avatar-w200-h200.jpg
+$car->upload_avatar->getUrl(200, 200); // images/avatar/thumb/user-avatar-w200-h200.jpg
 ```
 
 ### Upload with UploadedFile
