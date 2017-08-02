@@ -3,6 +3,7 @@
 namespace Uploadify\Casts;
 
 use Uploadify\Casts\Cast as BaseCast;
+use Illuminate\Support\Facades\Config;
 
 class ImageCast extends BaseCast
 {
@@ -52,36 +53,10 @@ class ImageCast extends BaseCast
     public function getBasename($width = null, $height = null)
     {
         if ($width && $height) {
-            return $this->getBasenameWithDimensions($width, $height);
+            return $this->prepareNameThumb(pathinfo($this->getName(), PATHINFO_FILENAME), $width, $height);
         }
 
         return pathinfo($this->getName(), PATHINFO_FILENAME);
-    }
-
-    /**
-     * Get file size in bytes
-     *
-     * @return string
-     */
-    public function getFilesize()
-    {
-        return Storage::disk($this->getDisk())->size($this->getUrl());
-    }
-
-    /**
-     * Get full path to file
-     *
-     * @param  int  $width
-     * @param  int  $height
-     * @return string
-     */
-    public function getUrl($width = null, $height = null)
-    {
-        if ($width && $height) {
-            $this->getPathThumb().$this->getName($width, $height);
-        }
-
-        return $this->getPath().$this->getName();
     }
 
     /**
@@ -95,14 +70,43 @@ class ImageCast extends BaseCast
     }
 
     /**
-     * Get file base name with dimensions (width and height), without extension
+     * Get full url to file
      *
      * @param  int  $width
      * @param  int  $height
      * @return string
      */
-    protected function getBasenameWithDimensions($width, $height)
+    public function getUrl($width = null, $height = null)
     {
-        return pathinfo($this->getName(), PATHINFO_FILENAME).'-w'.$width.'-h'.$height;
+        if ($width && $height) {
+            return $this->getStorage()->url($this->getPathThumb().$this->getName($width, $height));
+        }
+
+        return $this->getStorage()->url($this->getPath().$this->getName());
+    }
+
+    /**
+     * Prepare thumbnail name from name mask
+     *
+     * @param  string  $name
+     * @param  int  $width
+     * @param  int  $height
+     * @return string
+     */
+    protected function prepareNameThumb($name, $width, $height)
+    {
+        $from = [
+            '{name}',
+            '{width}',
+            '{height}',
+        ];
+
+        $to = [
+            $name,
+            $width,
+            $height,
+        ];
+
+        return str_replace($from, $to, Config::get('uploadify.name_thumb_mask'));
     }
 }
