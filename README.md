@@ -107,7 +107,7 @@ class Car extends Eloquent
      */
     protected $files = [
         'upload_information' => ['path' => 'documents/information/'],
-        'upload_specification' => ['path' => 'documents/specification/'],
+        'upload_specification' => ['path' => 'documents/specification/', 'disk' => 's3'],
     ];
 }
 ```
@@ -134,7 +134,7 @@ class User extends Eloquent
      */
     protected $images = [
         'upload_cover' => ['path' => 'images/cover/'],
-        'upload_avatar' => ['path' => 'images/avatar/', 'path_thumb' => 'images/avatar-small/'],
+        'upload_avatar' => ['path' => 'images/avatar/', 'path_thumb' => 'images/avatar-small/', 'disk' => 's3'],
     ];
 }
 ```
