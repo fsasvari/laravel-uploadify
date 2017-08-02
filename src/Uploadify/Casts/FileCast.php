@@ -11,7 +11,7 @@ class FileCast extends BaseCast
      *
      * @return string
      */
-    public function getName()
+    public function name()
     {
         return $this->name;
     }
@@ -21,9 +21,9 @@ class FileCast extends BaseCast
      *
      * @return string
      */
-    public function getBasename()
+    public function basename()
     {
-        return pathinfo($this->getName(), PATHINFO_FILENAME);
+        return pathinfo($this->name(), PATHINFO_FILENAME);
     }
 
     /**
@@ -31,8 +31,8 @@ class FileCast extends BaseCast
      *
      * @return string
      */
-    public function getUrl()
+    public function url()
     {
-        return $this->getStorage()->url($this->getPath().$this->getName());
+        return $this->getStorage()->url($this->path().$this->name());
     }
 }

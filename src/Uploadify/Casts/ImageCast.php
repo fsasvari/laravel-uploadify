@@ -49,10 +49,10 @@ class ImageCast extends BaseCast
      * @param  int  $height
      * @return string
      */
-    public function getName($width = null, $height = null)
+    public function name($width = null, $height = null)
     {
         if ($width && $height) {
-            return $this->getBasename($width, $height).$this->getExtension();
+            return $this->basename($width, $height).$this->extension();
         }
 
         return $this->name;
@@ -65,10 +65,10 @@ class ImageCast extends BaseCast
      * @param  int  $height
      * @return string
      */
-    public function getBasename($width = null, $height = null)
+    public function basename($width = null, $height = null)
     {
         if ($width && $height) {
-            return $this->prepareNameThumb(pathinfo($this->getName(), PATHINFO_FILENAME), $width, $height);
+            return $this->prepareNameThumb(pathinfo($this->name(), PATHINFO_FILENAME), $width, $height);
         }
 
         return pathinfo($this->getName(), PATHINFO_FILENAME);
@@ -79,7 +79,7 @@ class ImageCast extends BaseCast
      *
      * @return string
      */
-    public function getPathThumb()
+    public function pathThumb()
     {
         return $this->pathThumb;
     }
@@ -91,7 +91,7 @@ class ImageCast extends BaseCast
      * @param  int  $height
      * @return string
      */
-    public function getUrl($width = null, $height = null)
+    public function url($width = null, $height = null)
     {
         if ($width && $height) {
             return $this->getStorage()->url($this->getPathThumb().$this->getName($width, $height));

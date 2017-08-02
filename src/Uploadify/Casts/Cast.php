@@ -77,7 +77,7 @@ abstract class Cast
      *
      * @return string
      */
-    public function getExtension()
+    public function extension()
     {
         return pathinfo($this->getName(), PATHINFO_EXTENSION);
     }
@@ -87,7 +87,7 @@ abstract class Cast
      *
      * @return string
      */
-    public function getFilesize()
+    public function filesize()
     {
         return $this->getStorage()->size($this->getUrl());
     }
@@ -97,7 +97,7 @@ abstract class Cast
      *
      * @return string
      */
-    public function getPath()
+    public function path()
     {
         return $this->path;
     }
@@ -147,6 +147,6 @@ abstract class Cast
      */
     public function __toString()
     {
-        return $this->getName();
+        return $this->name();
     }
 }
