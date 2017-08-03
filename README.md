@@ -114,7 +114,7 @@ class Car extends Eloquent
 
 #### Images
 
-If you need to show images (jpg, png, gif...) in Eloquent model, you need to define `$images` property with database field name as key and paths as array values (`path` and `path_thumb`). `path` value is required, but `path_thumb` is not. Use `path_thumb` only if path to thumb images is different then default one (we always use `thumb/` prefix on defined `path` value). Also, `disk` value is optional and it will be taken from default disk value from configuration.
+If you need to show images (jpg, png, gif...) in Eloquent model, you need to define `$images` property with database field name as key and `path` as array value which is required. Also, `disk` value is optional and it will be taken from default disk value from configuration.
 
 ```php
 <?php
@@ -134,7 +134,7 @@ class User extends Eloquent
      */
     protected $images = [
         'upload_cover' => ['path' => 'images/cover/'],
-        'upload_avatar' => ['path' => 'images/avatar/', 'path_thumb' => 'images/avatar-small/', 'disk' => 's3'],
+        'upload_avatar' => ['path' => 'images/avatar/', 'disk' => 's3'],
     ];
 }
 ```
@@ -232,7 +232,7 @@ $car->upload_avatar->url(); // storage/images/avatar/user-avatar.jpg or
 
 // get full url path to image thumb
 $car->upload_avatar->url(200, 200); // storage/images/avatar/thumb/user-avatar-w200-h200.jpg or
-                                    // http://www.website.com/storage/images/avatar/user-avatar-w200-h200.jpg
+                                    // http://www.website.com/storage/images/avatar/thumb/user-avatar-w200-h200.jpg
                                     // if "url" value provided in disk url in "config/filesystems.php"
 ```
 
