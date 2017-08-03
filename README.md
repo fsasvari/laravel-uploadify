@@ -252,10 +252,10 @@ $uploadify = Uploadify::create($file, $car, 'upload_specification'); // or set($
 
 // additional options
 $uploadify->setName('custom file name'); // set custom file name
-$uploadify->setPath('path-to-custom-directory/'); // set path to custom upload directory, maybe some temporary directory ?
+$uploadify->setPath('path-to-custom-upload-directory/'); // set path to custom upload directory, maybe some temporary directory ?
 
 // upload() method returns uploaded file name with extension (without path), so you can save value in database
-$specificationName = $uploadify->upload(); // need to define field name;
+$specificationName = $uploadify->upload();
 
 $car->upload_specification = $specificationName;
 $car->save();
@@ -284,10 +284,10 @@ $uploadify->process($image);
 
 // additional options
 $uploadify->setName('custom image name'); // set custom file name
-$uploadify->setPath('path-to-custom-directory/'); // set path to custom upload directory, maybe some temporary directory ?
+$uploadify->setPath('path-to-custom-upload-directory/'); // set path to custom upload directory, maybe some temporary directory ?
 
 // upload() method returns uploaded file name with extension (without path), so you can save value in database
-$avatarName = $uploadify->upload(); // need to define field name;
+$avatarName = $uploadify->upload();
 
 $user->upload_avatar = $avatarName;
 $user->save();
