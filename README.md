@@ -210,14 +210,8 @@ $user = User::first();
 // get full image name with extension
 $cat->upload_avatar->name(); // user-avatar.jpg
 
-// get full image thumb name with extension
-$cat->upload_avatar->name(200, 200); // user-avatar-w200-h200.jpg
-
 // get image basename
 $cat->upload_avatar->basename(); // user-avatar
-
-// get image thumb basename
-$cat->upload_avatar->basename(200, 200); // user-avatar-w200-h200
 
 // get file extension
 $cat->upload_avatar->extension(); // jpg
@@ -226,15 +220,37 @@ $cat->upload_avatar->extension(); // jpg
 $cat->upload_avatar->filesize(); // 150000
 
 // get full url path to image
-$car->upload_avatar->url(); // storage/images/avatar/user-avatar.jpg or
-                            // http://www.website.com/storage/images/avatar/user-avatar.jpg
-                            // if "url" value provided in disk url in "config/filesystems.php"
+// example: http://www.website.com/storage/images/avatar/user-avatar.jpg
+$car->upload_avatar->url();
 
 // get full url path to image thumb
-$car->upload_avatar->url(200, 200); // storage/images/avatar/thumb/user-avatar-w200-h200.jpg or
-                                    // http://www.website.com/storage/images/avatar/thumb/user-avatar-w200-h200.jpg
-                                    // if "url" value provided in disk url in "config/filesystems.php"
+// example: http://www.website.com/storage/images/avatar/w_200,h_200/user-avatar.jpg
+$car->upload_avatar->url(200, 200);
+
+// get full url path to image thumb with some special effects and options
+// example: http://www.website.com/storage/images/avatar/w_200,h_200,opacity_50/user-avatar.jpg
+$car->upload_avatar->url(200, 200, ['opacity' => 50]);
+
+// get full url path to image with custom options
+// example: http://www.website.com/storage/images/avatar/w_500,blur_50,brightness_-50,effect_grayscale,crop_resize/user-avatar.jpg
+$car->upload_avatar->url(['width' => 500, 'blur' => 50, 'brightness' => -50, 'effect' => 'grayscale', 'crop' => 'resize']);
 ```
+
+### List of options
+
+List of custom options you can use when calling url() method:
+
+- width
+- height
+- crop: `fit` (default), `resize`
+- effect: `grayscale`, `invert`
+- blur: `0` - `100`
+- brightness: `-100` - `100`
+- contrast: `-100` - `100`
+- sharpen: `0` - `100`
+- pixelate: (size of pixels)
+- rotate: `-360` - `360`
+- flip: `h` (horizontal), `v` (vertical)
 
 ### Upload with UploadedFile
 
