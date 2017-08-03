@@ -243,7 +243,7 @@ List of custom options you can use when calling url() method:
 - width
 - height
 - crop: `fit` (default), `resize`
-- effect: `grayscale`, `invert`
+- effect: `greyscale`, `invert`
 - quality: `0` - `100` (`90` is default value)
 - blur: `0` - `100`
 - brightness: `-100` - `100`
