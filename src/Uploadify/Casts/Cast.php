@@ -49,8 +49,8 @@ abstract class Cast
      */
     protected function saveSettings(array $settings = [])
     {
-        $this->setPath(isset($settings['path']) ? $settings['path'] : '');
-        $this->setDisk(isset($settings['disk']) ? $settings['disk'] : null);
+        $this->setPath(array_has($settings, 'path') ? $settings['path'] : '');
+        $this->setDisk(array_has($settings, 'disk') ? $settings['disk'] : null);
     }
 
     /**
