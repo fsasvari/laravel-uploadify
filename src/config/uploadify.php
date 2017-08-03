@@ -18,32 +18,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Thumbnail Folder Suffix
-    |--------------------------------------------------------------------------
-    |
-    | Default suffix for path to thumbnail folder. Example: if "path" is set to
-    | "images/logo/" and "path_thumb_suffix" is set to "thumb/", "path_thumb"
-    | will be "images/logo/thumb/".
-    |
-    */
-
-    'path_thumb_suffix' => 'thumb',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Thumbnail Name Mask
-    |--------------------------------------------------------------------------
-    |
-    | Thumbnail name mask for images is consisted of "name", "width" and
-    | "height" parameters. This mask will be used for generating url and for
-    | creating route to image thumbnail.
-    |
-    */
-
-    'name_thumb_mask' => '{name}-w{width}-h{height}',
-
-    /*
-    |--------------------------------------------------------------------------
     | Slug Separator
     |--------------------------------------------------------------------------
     |
