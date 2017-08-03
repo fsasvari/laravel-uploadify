@@ -49,13 +49,30 @@ abstract class Cast
      */
     protected function saveSettings(array $settings = [])
     {
-        if (isset($settings['path'])) {
-            $this->path = $settings['path'];
-        }
+        $this->setPath(isset($settings['path']) ? $settings['path'] : '');
+        $this->setDisk(isset($settings['disk']) ? $settings['disk'] : null);
+    }
 
-        if (isset($settings['disk'])) {
-            $this->disk = $settings['disk'];
-        }
+    /**
+     * Set path value
+     *
+     * @param  string  $path
+     * @return void
+     */
+    protected function setPath($path)
+    {
+        $this->path = trim($path, '/');
+    }
+
+    /**
+     * Set disk value
+     *
+     * @param  string  $disk
+     * @return void
+     */
+    protected function setDisk($disk = null)
+    {
+        $this->disk = $disk ?: Config::get('uploadify.disk');
     }
 
     /**
@@ -75,7 +92,7 @@ abstract class Cast
      */
     public function filesize()
     {
-        return $this->getStorage()->size($this->path().$this->name());
+        return $this->getStorage()->size($this->path().DIRECTORY_SEPARATOR.$this->name());
     }
 
     /**
@@ -95,7 +112,7 @@ abstract class Cast
      */
     public function delete()
     {
-        return $this->getStorage()->delete($this->url());
+        return $this->getStorage()->delete($this->path().DIRECTORY_SEPARATOR.$this->name());
     }
 
     /**
@@ -115,15 +132,7 @@ abstract class Cast
      */
     protected function getDisk()
     {
-        if ($this->disk) {
-            return $this->disk;
-        }
-
-        if (Config::has('uploadify.disk')) {
-            return Config::get('uploadify.disk');
-        }
-
-        return Config::get('uploadify.filesystems.default');
+        return $this->disk;
     }
 
     /**

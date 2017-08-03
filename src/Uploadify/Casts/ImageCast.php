@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\Config;
 class ImageCast extends BaseCast
 {
     /**
-     * The path to thumb file
+     * The thumb path suffix directory
      *
      * @var string
      */
-    protected $pathThumb;
+    protected $pathThumbSuffix;
 
     /**
      * Save setting values from array
@@ -24,22 +24,17 @@ class ImageCast extends BaseCast
     {
         parent::saveSettings($settings);
 
-        $this->setPathThumb(isset($settings['path_thumb']) ? $settings['path_thumb'] : null);
+        $this->setPathThumbSuffix();
     }
 
     /**
-     * Set thumbnail path
+     * Set thumbnail path suffix directory
      *
-     * @param  string|null  $pathThumb
      * @return void
      */
-    protected function setPathThumb($pathThumb = null)
+    protected function setPathThumbSuffix()
     {
-        if ($pathThumb) {
-            $this->pathThumb = $pathThumb;
-        } else {
-            $this->pathThumb = $this->path.Config::get('uploadify.path_thumb_suffix');
-        }
+        $this->pathThumbSuffix = trim(Config::get('uploadify.path_thumb_suffix'), '/');
     }
 
     /**
@@ -81,7 +76,7 @@ class ImageCast extends BaseCast
      */
     public function pathThumb()
     {
-        return $this->pathThumb;
+        return $this->path.'/'.$this->pathThumbSuffix;
     }
 
     /**
@@ -94,10 +89,10 @@ class ImageCast extends BaseCast
     public function url($width = null, $height = null)
     {
         if ($width && $height) {
-            return $this->getStorage()->url($this->pathThumb().$this->name($width, $height));
+            return $this->getStorage()->url($this->pathThumb().'/'.$this->name($width, $height));
         }
 
-        return $this->getStorage()->url($this->path().$this->name());
+        return $this->getStorage()->url($this->path().'/'.$this->name());
     }
 
     /**

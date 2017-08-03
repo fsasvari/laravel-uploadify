@@ -33,6 +33,6 @@ class FileCast extends BaseCast
      */
     public function url()
     {
-        return $this->getStorage()->url($this->path().$this->name());
+        return $this->getStorage()->url($this->path().'/'.$this->name());
     }
 }
