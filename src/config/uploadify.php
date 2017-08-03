@@ -18,6 +18,31 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Cache thumbnail images
+    |--------------------------------------------------------------------------
+    |
+    | Set to "true" if you want to cache processed images.
+    |
+    | Values: true, false
+    |
+    */
+
+    'cache' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default Thumbnail Folder Suffix
+    |--------------------------------------------------------------------------
+    |
+    | Default suffix for path to thumbnail folder. Example: if "path" is set to
+    | "upload/images/logo" and "path_thumb_suffix" is set to "thumb",
+    | "path_thumb" will be "upload/images/logo/thumb".
+    |
+    */
+    'path_thumb_suffix' => 'thumb',
+
+    /*
+    |--------------------------------------------------------------------------
     | Slug Separator
     |--------------------------------------------------------------------------
     |
