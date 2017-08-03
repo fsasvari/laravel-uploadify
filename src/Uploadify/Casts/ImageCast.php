@@ -3,120 +3,59 @@
 namespace Uploadify\Casts;
 
 use Uploadify\Casts\Cast as BaseCast;
-use Illuminate\Support\Facades\Config;
 
 class ImageCast extends BaseCast
 {
     /**
-     * The thumb path suffix directory
-     *
-     * @var string
-     */
-    protected $pathThumbSuffix;
-
-    /**
-     * Save setting values from array
-     *
-     * @param  array  $settings
-     * @return void
-     */
-    protected function saveSettings(array $settings = [])
-    {
-        parent::saveSettings($settings);
-
-        $this->setPathThumbSuffix();
-    }
-
-    /**
-     * Set thumbnail path suffix directory
-     *
-     * @return void
-     */
-    protected function setPathThumbSuffix()
-    {
-        $this->pathThumbSuffix = trim(Config::get('uploadify.path_thumb_suffix'), '/');
-    }
-
-    /**
-     * Get file name with extension
-     *
-     * @param  int  $width
-     * @param  int  $height
-     * @return string
-     */
-    public function name($width = null, $height = null)
-    {
-        if ($width && $height) {
-            return $this->basename($width, $height).'.'.$this->extension();
-        }
-
-        return $this->name;
-    }
-
-    /**
-     * Get file base name without extension
-     *
-     * @param  int  $width
-     * @param  int  $height
-     * @return string
-     */
-    public function basename($width = null, $height = null)
-    {
-        if ($width && $height) {
-            return $this->prepareNameThumb(pathinfo($this->name(), PATHINFO_FILENAME), $width, $height);
-        }
-
-        return pathinfo($this->name(), PATHINFO_FILENAME);
-    }
-
-    /**
-     * Get thumb path
-     *
-     * @return string
-     */
-    public function pathThumb()
-    {
-        return $this->path.'/'.$this->pathThumbSuffix;
-    }
-
-    /**
      * Get full url to file
      *
-     * @param  int  $width
+     * @param  int|array  $width
      * @param  int  $height
+     * @param  array  $options
      * @return string
      */
-    public function url($width = null, $height = null)
+    public function url($width = null, $height = null, array $options = [])
     {
-        if ($width && $height) {
-            return $this->getStorage()->url($this->pathThumb().'/'.$this->name($width, $height));
+        if (is_array($width)) {
+            $options = $width;
+        }
+
+        if (empty($options)) {
+            if ($width) {
+                $options['w'] = $width;
+            }
+
+            if ($height) {
+                $options['h'] = $height;
+            }
+        }
+
+        if (! empty($options)) {
+            return $this->getStorage()->url($this->path().'/'.$this->prepareOptions($options).'/'.$this->name());
         }
 
         return $this->getStorage()->url($this->path().'/'.$this->name());
     }
 
     /**
-     * Prepare thumbnail name from name mask
+     * Prepare and convert options from array to string
      *
-     * @param  string  $name
-     * @param  int  $width
-     * @param  int  $height
-     * @return string
+     * @param array $options
      */
-    protected function prepareNameThumb($name, $width, $height)
+    protected function prepareOptions(array $options = [])
     {
-        $from = [
-            '{name}',
-            '{width}',
-            '{height}',
-        ];
+        $string = implode(',', array_map(
+            function ($value, $key) {
+                return $value.'_'.$key;
+            },
+            $options,
+            array_keys($options)
+        ));
 
-        $to = [
-            $name,
-            $width,
-            $height,
-        ];
+        $from = ['width', 'height'];
 
-        return str_replace($from, $to, Config::get('uploadify.name_thumb_mask'));
+        $to = ['w', 'h'];
+
+        return str_replace($from, $to, $string);
     }
 }

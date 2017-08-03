@@ -76,6 +76,26 @@ abstract class Cast
     }
 
     /**
+     * Get file name with extension
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Get file base name without extension
+     *
+     * @return string
+     */
+    public function basename()
+    {
+        return pathinfo($this->name(), PATHINFO_FILENAME);
+    }
+
+    /**
      * Get file extension
      *
      * @return string
