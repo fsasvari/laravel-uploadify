@@ -46,7 +46,7 @@ class ImageCast extends BaseCast
     {
         $string = implode(',', array_map(
             function ($value, $key) {
-                return $value.'_'.$key;
+                return $key.'_'.$value;
             },
             $options,
             array_keys($options)
