@@ -106,8 +106,8 @@ class Car extends Eloquent
      * @var array
      */
     protected $files = [
-        'upload_information' => ['path' => 'documents/information/'],
-        'upload_specification' => ['path' => 'documents/specification/', 'disk' => 's3'],
+        'upload_information' => ['path' => 'documents/information'],
+        'upload_specification' => ['path' => 'documents/specification', 'disk' => 's3'],
     ];
 }
 ```
@@ -145,8 +145,8 @@ class User extends Eloquent
      * @var array
      */
     protected $images = [
-        'upload_cover' => ['path' => 'images/cover/'],
-        'upload_avatar' => ['path' => 'images/avatar/', 'disk' => 's3'],
+        'upload_cover' => ['path' => 'images/cover'],
+        'upload_avatar' => ['path' => 'images/avatar', 'disk' => 's3'],
     ];
 }
 ```
@@ -172,8 +172,8 @@ class Car extends Eloquent
      * @var array
      */
     protected $files = [
-        'upload_information' => ['path' => 'documents/information/'],
-        'upload_specification' => ['path' => 'documents/specification/'],
+        'upload_information' => ['path' => 'documents/information'],
+        'upload_specification' => ['path' => 'documents/specification'],
     ];
 
     /**
@@ -182,7 +182,7 @@ class Car extends Eloquent
      * @var array
      */
     protected $images = [
-        'upload_cover' => ['path' => 'images/cover/'],
+        'upload_cover' => ['path' => 'images/cover'],
     ];
 }
 ```
@@ -281,7 +281,7 @@ $uploadify = Uploadify::create($file, $car, 'upload_specification'); // or set($
 
 // additional options
 $uploadify->setName('custom file name'); // set custom file name
-$uploadify->setPath('path-to-custom-upload-directory/'); // set path to custom upload directory, maybe some temporary directory ?
+$uploadify->setPath('path-to-custom-upload-directory'); // set path to custom upload directory, maybe some temporary directory ?
 
 // upload() method returns uploaded file name with extension (without path), so you can save value in database
 $specificationName = $uploadify->upload();
@@ -313,7 +313,7 @@ $uploadify->process($image);
 
 // additional options
 $uploadify->setName('custom image name'); // set custom file name
-$uploadify->setPath('path-to-custom-upload-directory/'); // set path to custom upload directory, maybe some temporary directory ?
+$uploadify->setPath('path-to-custom-upload-directory'); // set path to custom upload directory, maybe some temporary directory ?
 
 // upload() method returns uploaded file name with extension (without path), so you can save value in database
 $avatarName = $uploadify->upload();
