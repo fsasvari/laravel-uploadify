@@ -18,16 +18,12 @@ class ImageCast extends BaseCast
     {
         if (is_array($width)) {
             $options = $width;
+        } elseif ($width) {
+            $options['w'] = $width;
         }
 
-        if (empty($options)) {
-            if ($width) {
-                $options['w'] = $width;
-            }
-
-            if ($height) {
-                $options['h'] = $height;
-            }
+        if ($height) {
+            $options['h'] = $height;
         }
 
         if (! empty($options)) {
