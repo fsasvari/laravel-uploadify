@@ -3,6 +3,7 @@
 namespace Uploadify\Http\Controllers;
 
 use Illuminate\Contracts\Config\Repository as Config;
+use Illuminate\Contracts\Routing\ResponseFactory as Response;
 use Illuminate\Contracts\Filesystem\Factory as Storage;
 use Intervention\Image\ImageManager;
 use Illuminate\Log\Writer as Log;
@@ -18,6 +19,13 @@ class ImageController
      * @var \Illuminate\Contracts\Config\Repository
      */
     protected $config;
+
+    /**
+     * The routing response factory instance
+     *
+     * @var \Illuminate\Contracts\Routing\ResponseFactory
+     */
+    protected $response;
 
     /**
      * The filesystem factory (storage) instance
@@ -49,9 +57,10 @@ class ImageController
      * @param  \Illuminate\Log\Writer  $log
      * @return void
      */
-    public function __construct(Config $config, Storage $storage, ImageManager $imageManager, Log $log)
+    public function __construct(Config $config, Response $response, Storage $storage, ImageManager $imageManager, Log $log)
     {
         $this->config = $config;
+        $this->response = $response;
         $this->storage = $storage;
         $this->imageManager = $imageManager;
         $this->log = $log;
