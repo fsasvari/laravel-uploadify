@@ -112,18 +112,6 @@ class Car extends Eloquent
 }
 ```
 
-### Step 6: Define route
-
-If you want to show processed images, you will need to include package controller from `routes/web.php` file.
-
-```php
-Route::get('{path}/{options}/{name}.{extension}', '\Uploadify\Http\Controllers\ImageController@show')
-    ->where('path', '[a-z-/]+')
-    ->where('options', '[a-z0-9-_,]+')
-    ->where('name', '.+?')
-    ->where('extension', 'jpe?g|gif|png|JPE?G|GIF|PNG');
-```
-
 #### Images
 
 If you need to show images (jpg, png, gif...) in Eloquent model, you need to define `$images` property with database field name as key and `path` as array value which is required. Also, `disk` value is optional and it will be taken from default disk value from configuration.
@@ -185,6 +173,18 @@ class Car extends Eloquent
         'upload_cover' => ['path' => 'images/cover'],
     ];
 }
+```
+
+### Step 6: Router
+
+If you want to show processed images, you will need to include Uploadify controller in `routes/web.php` file.
+
+```php
+Route::get('{path}/{options}/{name}.{extension}', '\Uploadify\Http\Controllers\ImageController@show')
+    ->where('path', '[a-z-/]+')
+    ->where('options', '[a-z0-9-_,]+')
+    ->where('name', '.+?')
+    ->where('extension', 'jpe?g|gif|png|JPE?G|GIF|PNG');
 ```
 
 ## Usage
