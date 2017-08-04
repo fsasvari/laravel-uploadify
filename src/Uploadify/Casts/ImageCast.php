@@ -19,11 +19,11 @@ class ImageCast extends BaseCast
         if (is_array($width)) {
             $options = $width;
         } elseif ($width) {
-            $options = array_merge(['w' => $width], $options);
-        }
+            if ($height) {
+                $options = array_merge(['h' => $height], $options);
+            }
 
-        if ($height) {
-            $options = array_merge(['h' => $height], $options);
+            $options = array_merge(['w' => $width], $options);
         }
 
         if (! empty($options)) {
