@@ -353,6 +353,7 @@ $car->upload_specification->delete();
 
 // you need to manually set field value to "null" after deletion
 $car->upload_specification = null;
+$car->save();
 ```
 
 ## Example Usage
