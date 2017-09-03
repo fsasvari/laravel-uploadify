@@ -33,7 +33,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Uploadify\\UploadifyServiceProvider.php"
+                "Uploadify\\Providers\\UploadifyServiceProvider.php"
             ]
         }
     },
