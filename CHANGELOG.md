@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.4.2 (2017-09-03)
+
+### Fixed
+- Fix service provider namespace in composer.json
+
 ## v0.4.1 (2017-09-03)
 
 ### Fixed
