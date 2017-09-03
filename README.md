@@ -1,6 +1,6 @@
 # Laravel Uploadify
 
-Uploadify is a library for Laravel that handles image uploading with automatic renaming, showing thumbnail image with custom routes and more. All that is available over Eloquent models.
+Uploadify is a library for Laravel 5.5 that handles image uploading with automatic renaming, showing thumbnail image with custom routes and more. All that is available over Eloquent models.
 
 [![Build For Laravel](https://img.shields.io/badge/Built_for-Laravel-orange.svg)](https://styleci.io/repos/79834672)
 [![Latest Stable Version](https://poser.pugx.org/fsasvari/laravel-uploadify/v/stable)](https://packagist.org/packages/fsasvari/laravel-uploadify)
@@ -21,7 +21,7 @@ composer require fsasvari/laravel-uploadify
 Or add it directly by copying next line into composer.json:
 
 ```
-"fsasvari/laravel-uploadify": "0.2.*"
+"fsasvari/laravel-uploadify": "0.4.*"
 ```
 
 And then run composer update:
