@@ -3,9 +3,9 @@
 namespace Uploadify;
 
 use Illuminate\Contracts\Filesystem\Factory as Storage;
-use Illuminate\Http\UploadedFile;
-use Intervention\Image\Image as InterventionImage;
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use Uploadify\Exceptions\InvalidDriverException;
+use Uploadify\Exceptions\InvalidFieldException;
 
 class UploadifyManager
 {
@@ -39,13 +39,56 @@ class UploadifyManager
     /**
      * Create new uploadify instance
      *
-     * @param  \Illuminate\Http\UploadedFile  $file
+     * @param  \Illuminate\Http\UploadedFile|string  $file
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  \Uploadify\Uploadify  $field
-     * @return self
+     * @return \Uploadify\AbstractDriver|\Uploadify\Contracts\DriverInterface
      */
-    public function create(UploadedFile $file, Eloquent $model, $field)
+    public function create($file, Eloquent $model, $field)
     {
-        return;
+        $type = $this->getCastType($model, $field);
+
+        return $this->createDriver($type, $file, $model, $field);
+    }
+
+    /**
+     * Get uploadify cast type by model and field name
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $model  $model
+     * @param  string  $field
+     * @throws \Uploadify\Exceptions\InvalidFieldException
+     * @return string
+     */
+    private function getCastType(Eloquent $model, $field)
+    {
+        if ($model->hasFileCasts() && array_key_exists($field, $model->files)) {
+            return 'file';
+        } elseif ($model->hasImageCasts() && array_key_exists($field, $model->images)) {
+            return 'image';
+        }
+
+        throw new InvalidFieldException('Field "'.$field.'" is not defined as Uploadify field!');
+    }
+
+    /**
+     * Create new driver instance
+     *
+     * @param  string  $driver
+     * @param  \Illuminate\Http\UploadedFile|string  $file
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  string  $field
+     * @throws \Uploadify\Exceptions\InvalidDriverException
+     * @return \Uploadify\AbstractDriver|\Uploadify\Contracts\DriverInterface
+     */
+    private function createDriver($driver, $file, Eloquent $model, $field)
+    {
+        $name = studly_case($driver);
+        $class = '\\Uploadify\\Driver\\'.$name;
+
+        if (! class_exists($class)) {
+            throw new InvalidDriverException('Driver "'.$class.'" does not exists!');
+        }
+
+        return new $class($this->storage, $file, $model, $field);
     }
 }
