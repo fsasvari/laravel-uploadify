@@ -33,8 +33,8 @@ return [
     |--------------------------------------------------------------------------
     |
     | Default path to processed images subfolder. Example: if model path is set
-    | to "images/logo" and "path" is set to "processed", processed images folder
-    | will be "images/logo/processed".
+    | to "images/logo" and "path" is set to "thumb", processed images folder
+    | will be "images/logo/thumb".
     |
     */
 
