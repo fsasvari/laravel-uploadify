@@ -82,7 +82,7 @@ class UploadifyManager
      */
     private function createDriver($driver, $file, Eloquent $model, $field)
     {
-        $name = studly_case($driver);
+        $name = ucfirst($driver);
         $class = '\\Uploadify\\Driver\\'.$name;
 
         if (! class_exists($class)) {
