@@ -136,6 +136,16 @@ abstract class Cast
     }
 
     /**
+     * Get filesystem disk name
+     *
+     * @return string
+     */
+    public function disk()
+    {
+        return $this->getDisk();
+    }
+
+    /**
      * Get filesystems storage
      *
      * @return \Illuminate\Contracts\Filesystem\Filesystem
