@@ -3,7 +3,9 @@
 namespace Uploadify;
 
 use Illuminate\Contracts\Filesystem\Factory as Storage;
+use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Http\UploadedFile;
+use Uploadify\Exceptions\InvalidSourceException;
 
 abstract class AbstractDriver
 {
@@ -22,28 +24,42 @@ abstract class AbstractDriver
     protected $settings = [];
 
     /**
-     * File instance
+     * File source type
+     *
+     * @var string
+     */
+    protected $sourceType;
+
+    /**
+     * File source
      *
      * @var mixed
      */
-    protected $file;
+    protected $source;
 
     /**
-     * Model instance
+     * Eloquent model instance
      *
-     * @var object
+     * @var \Illuminate\Database\Eloquent\Model
      */
     protected $model;
 
     /**
-     * Custom filename
+     * Name of uploadify field
+     *
+     * @var string
+     */
+    protected $field;
+
+    /**
+     * File basename
      *
      * @var string
      */
     protected $name;
 
     /**
-     * Custom extension
+     * File extension
      *
      * @var string
      */
@@ -54,25 +70,45 @@ abstract class AbstractDriver
      *
      * @param  \Illuminate\Contracts\Filesystem\Factory  $storage
      * @param  array  $settings
+     * @param  mixed  $source
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  string  $field
      * @return void
      */
-    public function __construct(Storage $storage, array $settings = [])
+    public function __construct(Storage $storage, array $settings, $source, Eloquent $model, $field)
     {
         $this->storage = $storage;
         $this->settings = $settings;
+        $this->sourceType = $this->getSourceType($source);
+        $this->source = $source;
+        $this->model = $model;
+        $this->field = $field;
+
+        $this->setFileInfo();
     }
 
     /**
-     * Set model
+     * Get source type
      *
-     * @param  object  $model
-     * @return $this
+     * @param  mixed  $source
+     * @return string
+     * @throws \Uploadify\Exceptions\InvalidSourceException
      */
-    public function setModel($model)
+    protected function getSourceType($source)
     {
-        $this->model = $model;
+        if ($source instanceof UploadedFile) {
+            return 'uploadedfile';
+        }
 
-        return $this;
+        if (filter_var($source, FILTER_VALIDATE_URL)) {
+            return 'url';
+        }
+
+        if (file_exists($source)) {
+            return 'path';
+        }
+
+        throw new InvalidSourceException('Unknown source type!');
     }
 
     /**
@@ -81,16 +117,23 @@ abstract class AbstractDriver
      * @param  \Illuminate\Http\UploadedFile  $file
      * @return $this
      */
-    public function setFileInfo(UploadedFile $file)
+    protected function setFileInfo()
     {
-        $this->setName(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
-        $this->setExtension($file->getClientOriginalExtension());
+        switch ($this->sourceType) {
+            case 'path': case 'url':
+                $this->setName(pathinfo($this->source, PATHINFO_FILENAME));
+                $this->setExtension(pathinfo($this->source, PATHINFO_EXTENSION));
+                break;
 
-        return $this;
+            case 'uploadedfile':
+                $this->setName(pathinfo($this->source->getClientOriginalName(), PATHINFO_FILENAME));
+                $this->setExtension($this->source->getClientOriginalExtension());
+                break;
+        }
     }
 
     /**
-     * Set custom file name
+     * Set file name
      *
      * @param  string  $name
      * @return $this
@@ -103,7 +146,7 @@ abstract class AbstractDriver
     }
 
     /**
-     * Set custom file extension
+     * Set file extension
      *
      * @param  string  $extension
      * @return $this
@@ -128,7 +171,7 @@ abstract class AbstractDriver
         $name = $filename.'.'.$extension;
 
         $i = 1;
-        while($this->storage->disk($this->getDisk())->exists($path.$name)) {
+        while ($this->storage->disk($this->getDisk())->exists($path.$name)) {
             $name = $filename.'-'.$i.'.'.$extension;
 
             $i++;
@@ -148,15 +191,5 @@ abstract class AbstractDriver
         if (! $this->storage->disk($this->getDisk())->exists($path)) {
             $this->storage->disk($this->getDisk())->makeDirectory($path);
         }
-    }
-
-    /**
-     * Get storage disk name from model
-     *
-     * @return string|null
-     */
-    protected function getDisk()
-    {
-        return $this->model->getDisk();
     }
 }
