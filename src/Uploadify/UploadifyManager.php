@@ -46,6 +46,6 @@ class UploadifyManager
      */
     public function create(UploadedFile $file, Eloquent $model, $field)
     {
-
+        return;
     }
 }
