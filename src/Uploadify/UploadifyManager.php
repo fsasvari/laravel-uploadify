@@ -46,20 +46,20 @@ class UploadifyManager
      */
     public function create($file, Eloquent $model, $field)
     {
-        $type = $this->getCastType($model, $field);
+        $driver = $this->getDriver($model, $field);
 
-        return $this->createDriver($type, $file, $model, $field);
+        return $this->createDriver($driver, $file, $model, $field);
     }
 
     /**
-     * Get uploadify cast type by model and field name
+     * Get uploadify driver name by model and field
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model  $model
      * @param  string  $field
      * @throws \Uploadify\Exceptions\InvalidFieldException
      * @return string
      */
-    private function getCastType(Eloquent $model, $field)
+    private function getDriver(Eloquent $model, $field)
     {
         if ($model->hasFileCasts() && array_key_exists($field, $model->files)) {
             return 'file';
@@ -89,6 +89,6 @@ class UploadifyManager
             throw new InvalidDriverException('Driver "'.$class.'" does not exists!');
         }
 
-        return new $class($this->storage, $file, $model, $field);
+        return new $class($this->storage, $this->settings, $file, $model, $field);
     }
 }
