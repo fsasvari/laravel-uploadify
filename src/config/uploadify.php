@@ -29,14 +29,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Path to processed images folder
+    | Path to processed images subfolder
     |--------------------------------------------------------------------------
     |
-    | Default path to processed images folder. Example: if model path is set
+    | Default path to processed images subfolder. Example: if model path is set
     | to "images/logo" and "path" is set to "processed", processed images folder
     | will be "images/logo/processed".
     |
     */
+
     'path' => 'thumb',
 
     /*
