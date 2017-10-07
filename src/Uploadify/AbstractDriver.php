@@ -85,6 +85,7 @@ abstract class AbstractDriver
         $this->field = $field;
 
         $this->setFileInfo();
+        $this->setModelInfo();
     }
 
     /**
@@ -130,6 +131,11 @@ abstract class AbstractDriver
                 $this->setExtension($this->source->getClientOriginalExtension());
                 break;
         }
+    }
+
+    protected function setModelInfo()
+    {
+        $this->model->{$this->field} = $this->name.'.'.$this->extension;
     }
 
     /**

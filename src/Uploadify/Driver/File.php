@@ -5,43 +5,8 @@ namespace Uploadify\Driver;
 use Uploadify\AbstractDriver;
 use Uploadify\Contracts\DriverInterface;
 
-use Illuminate\Http\UploadedFile;
-
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-
 class File extends AbstractDriver implements DriverInterface
 {
-    /**
-     * The uploaded file instance
-     *
-     * @var \Illuminate\Http\UploadedFile
-     */
-    protected $file;
-
-    /**
-     * Set uploaded file as file source
-     *
-     * @param  \Illuminate\Http\UploadedFile  $file
-     * @return $this
-     * @throws \Symfony\Component\HttpFoundation\File\Exception\FileException
-     */
-    public function setFile($file)
-    {
-        if (! ($file instanceof UploadedFile)) {
-            throw new FileException('File source must be instance of Illuminate\Http\UploadedFile!');
-        }
-
-        if (! $file->isValid()) {
-            throw new FileException('File was not uploaded successfully!');
-        }
-
-        $this->file = $file;
-
-        $this->setFileInfo($file);
-
-        return $this;
-    }
-
     /**
      * Upload file
      *
@@ -72,6 +37,6 @@ class File extends AbstractDriver implements DriverInterface
      */
     public function delete()
     {
-        return $this->storage->disk($this->getDisk())->delete($this->model->uploadFilePath.$this->model->getUploadFile());
+        return $this->storage->disk($this->getDisk())->delete($this->getFieldCast()->path().$this->getFieldCast()->name());
     }
 }
