@@ -2,6 +2,7 @@
 
 namespace Uploadify\Traits;
 
+use Illuminate\Support\Collection as BaseCollection;
 use Uploadify\Casts\FileCast;
 use Uploadify\Casts\ImageCast;
 
@@ -92,7 +93,7 @@ trait UploadifyTrait
      *
      * @return bool
      */
-    protected function hasFileCasts()
+    public function hasFileCasts()
     {
         return ! empty($this->files);
     }
@@ -102,7 +103,7 @@ trait UploadifyTrait
      *
      * @return bool
      */
-    protected function hasImageCasts()
+    public function hasImageCasts()
     {
         return ! empty($this->images);
     }
