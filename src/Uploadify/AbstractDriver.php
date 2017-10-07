@@ -192,4 +192,24 @@ abstract class AbstractDriver
             $this->storage->disk($this->getDisk())->makeDirectory($path);
         }
     }
+
+    /**
+     * Get storage disk name from model or settings
+     *
+     * @return string|null
+     */
+    protected function getDisk()
+    {
+        return $this->getFieldCast()->disk();
+    }
+
+    /**
+     * Get field cast
+     *
+     * @return \Uploadify\Casts\Cast
+     */
+    protected function getFieldCast()
+    {
+        return $this->model->{$this->field};
+    }
 }
