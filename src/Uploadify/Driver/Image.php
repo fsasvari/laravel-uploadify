@@ -40,17 +40,23 @@ class Image extends AbstractDriver implements DriverInterface
 
         switch ($this->sourceType) {
             case 'path':
-                return $this->uploadFromPath();
+                $isUploaded = $this->uploadFromPath();
+                break;
 
             case 'url':
-                return $this->uploadFromUrl();
+                $isUploaded = $this->uploadFromUrl();
+                break;
 
             case 'uploadedfile':
-                return $this->uploadFromUploadedFile();
+                $isUploaded = $this->uploadFromUploadedFile();
+                break;
 
             case 'interventionimage':
-                return $this->uploadFromInterventionImage();
+                $isUploaded = $this->uploadFromInterventionImage();
+                break;
         }
+
+        return $isUploaded;
     }
 
     /**
@@ -62,24 +68,6 @@ class Image extends AbstractDriver implements DriverInterface
     {
         $path = $this->storage->disk($this->getDisk())->getDriver()->getAdapter()->getPathPrefix();
 
-        return $this->source->save($path.'/'.$this->model->uploadImagePath.$this->name.'.'.$this->extension, $this->quality);
+        return $this->source->save($path.DIRECTORY_SEPARATOR.$this->getPath().DIRECTORY_SEPARATOR.$this->name.'.'.$this->extension, $this->quality);
     }
-
-    /**
-     * Upload image
-     *
-     * @param  int  $quality
-     * @return $this
-     */
-//    public function upload()
-//    {
-//        $this->createDirectory($this->model->uploadImagePath);
-//
-//        $name = $this->rename($this->model->uploadImagePath, $this->name, $this->extension);
-//        $path = $this->storage->disk($this->getDisk())->getDriver()->getAdapter()->getPathPrefix();
-//
-//        $this->source->save($path.'/'.$this->model->uploadImagePath.$name, $this->quality);
-//
-//        return $name;
-//    }
 }

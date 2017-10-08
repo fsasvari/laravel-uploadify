@@ -236,6 +236,7 @@ abstract class AbstractDriver
         }
 
         $this->setName(rtrim($name, '.'.$this->extension));
+        $this->setModelInfo();
 
         return $name;
     }

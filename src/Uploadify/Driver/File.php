@@ -10,7 +10,7 @@ class File extends AbstractDriver implements DriverInterface
     /**
      * Upload file
      *
-     * @return string
+     * @return void
      */
     public function upload()
     {
@@ -20,13 +20,18 @@ class File extends AbstractDriver implements DriverInterface
 
         switch ($this->sourceType) {
             case 'path':
-                return $this->uploadFromPath();
+                $isUploaded = $this->uploadFromPath();
+                break;
 
             case 'url':
-                return $this->uploadFromUrl();
+                $isUploaded = $this->uploadFromUrl();
+                break;
 
             case 'uploadedfile':
-                return $this->uploadFromUploadedFile();
+                $isUploaded = $this->uploadFromUploadedFile();
+                break;
         }
+
+        return $isUploaded;
     }
 }
