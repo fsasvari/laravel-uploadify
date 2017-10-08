@@ -109,14 +109,14 @@ abstract class AbstractDriver
             return 'path';
         }
 
-        throw new InvalidSourceException('Unknown source type!');
+        throw new InvalidSourceException('Unknown source type! File source must be from UploadedFile, url or path.');
     }
 
     /**
      * Set file name and extension
      *
      * @param  \Illuminate\Http\UploadedFile  $file
-     * @return $this
+     * @return void
      */
     protected function setFileInfo()
     {
@@ -133,6 +133,11 @@ abstract class AbstractDriver
         }
     }
 
+    /**
+     * Set file name with extension on model field
+     *
+     * @return void
+     */
     protected function setModelInfo()
     {
         $this->model->{$this->field} = $this->name.'.'.$this->extension;
@@ -165,23 +170,72 @@ abstract class AbstractDriver
     }
 
     /**
+     * Delete file or image
+     *
+     * @param  object  $model
+     * @param  string  $type  file/image
+     * @param  string|null  $disk
+     * @return bool
+     */
+    public function delete()
+    {
+        return $this->getFieldCast()->delete();
+    }
+
+    /**
+     * Copy file from source folder to destination folder
+     *
+     * @return bool
+     */
+    protected function uploadFromPath()
+    {
+        $path = $this->storage->disk($this->getDisk())->getDriver()->getAdapter()->getPathPrefix();
+
+        return copy($this->source, $path.DIRECTORY_SEPARATOR.$this->getPath().DIRECTORY_SEPARATOR.$this->name.'.'.$this->extension);
+    }
+
+    /**
+     * Download file from url and put on destination folder
+     *
+     * @return bool
+     */
+    protected function uploadFromUrl()
+    {
+        $contents = file_get_contents($this->source);
+
+        return $this->storage->disk($this->getDisk())->put($this->getPath().DIRECTORY_SEPARATOR.$this->name.'.'.$this->extension, $contents);
+    }
+
+    /**
+     *
+     * @return type
+     */
+    protected function uploadFromUploadedFile()
+    {
+        $options = [
+            'disk' => $this->getDisk(),
+        ];
+
+        return $this->source->storeAs($this->getPath(), $this->name.'.'.$this->extension, $options);
+    }
+
+    /**
      * Rename file if exists
      *
-     * @param  string  $path
-     * @param  string  $filename
-     * @param  string  $extension
      * @return string
      */
-    protected function rename($path, $filename, $extension)
+    protected function rename()
     {
-        $name = $filename.'.'.$extension;
+        $name = $this->name.'.'.$this->extension;
 
         $i = 1;
-        while ($this->storage->disk($this->getDisk())->exists($path.$name)) {
-            $name = $filename.'-'.$i.'.'.$extension;
+        while ($this->storage->disk($this->getDisk())->exists($this->getPath().DIRECTORY_SEPARATOR.$name)) {
+            $name = $this->name.'-'.$i.'.'.$this->extension;
 
             $i++;
         }
+
+        $this->setName(rtrim($name, '.'.$this->extension));
 
         return $name;
     }
@@ -200,13 +254,23 @@ abstract class AbstractDriver
     }
 
     /**
-     * Get storage disk name from model or settings
+     * Get storage disk name from model
      *
      * @return string|null
      */
     protected function getDisk()
     {
         return $this->getFieldCast()->disk();
+    }
+
+    /**
+     * Get path from model
+     *
+     * @return string|null
+     */
+    protected function getPath()
+    {
+        return $this->getFieldCast()->path();
     }
 
     /**

@@ -14,29 +14,19 @@ class File extends AbstractDriver implements DriverInterface
      */
     public function upload()
     {
-        $this->createDirectory($this->model->uploadFilePath);
+        $this->createDirectory($this->getPath());
 
-        $name = $this->rename($this->model->uploadFilePath, $this->name, $this->extension);
+        $this->rename($this->getPath(), $this->name, $this->extension);
 
-        $options = [
-            'disk' => $this->getDisk(),
-        ];
+        switch ($this->sourceType) {
+            case 'path':
+                return $this->uploadFromPath();
 
-        $this->file->storeAs($this->model->uploadFilePath, $name, $options);
+            case 'url':
+                return $this->uploadFromUrl();
 
-        return $name;
-    }
-
-    /**
-     * Delete file or image
-     *
-     * @param  object  $model
-     * @param  string  $type  file/image
-     * @param  string|null  $disk
-     * @return bool
-     */
-    public function delete()
-    {
-        return $this->storage->disk($this->getDisk())->delete($this->getFieldCast()->path().$this->getFieldCast()->name());
+            case 'uploadedfile':
+                return $this->uploadFromUploadedFile();
+        }
     }
 }
