@@ -21,7 +21,7 @@ composer require fsasvari/laravel-uploadify
 Or add it directly by copying next line into composer.json:
 
 ```
-"fsasvari/laravel-uploadify": "0.4.*"
+"fsasvari/laravel-uploadify": "1.0.*"
 ```
 
 And then run composer update:
@@ -49,7 +49,7 @@ Optionally, you can add alias to `Uploadify` facade:
 
 ```php
 'aliases' => [
-    'Uploadify' => Uploadify\Facades\Uploadify::class,
+    'Uploadify' => Uploadify\Facades\UploadifyManager::class,
 ];
 ```
 
@@ -196,6 +196,7 @@ Route::get('{path}/{options}/{name}.{extension}', '\Uploadify\Http\Controllers\I
 $car = Car::first();
 
 // get full file name with extension
+$cat->upload_specification; // car-specification.pdf
 $cat->upload_specification->name(); // car-specification.pdf
 
 // get file basename
@@ -220,6 +221,7 @@ $car->upload_specification->url(); // storage/documents/specification/car-specif
 $user = User::first();
 
 // get full image name with extension
+$cat->upload_avatar; // user-avatar.jpg
 $cat->upload_avatar->name(); // user-avatar.jpg
 
 // get image basename
@@ -277,11 +279,10 @@ $car = new Car();
 $file = $request->file('specification');
 
 // create new uploadify instance, set file, model and field name
-$uploadify = Uploadify::create($file, $car, 'upload_specification'); // or set($file, new Car, 'upload_specification')
+$uploadify = UploadifyManager::create($file, $car, 'upload_specification'); // or set($file, new Car(), 'upload_specification')
 
 // additional options
 $uploadify->setName('custom file name'); // set custom file name
-$uploadify->setPath('path-to-custom-upload-directory'); // set path to custom upload directory, maybe some temporary directory ?
 
 // upload() method returns uploaded file name with extension (without path), so you can save value in database
 $specificationName = $uploadify->upload();
@@ -290,9 +291,21 @@ $car->upload_specification = $specificationName;
 $car->save();
 ```
 
+### Upload from path or url
+
+Upload example with usage of file received from `path` or `url`.
+
+```php
+// path to file
+$path = '/path-to-file/file.pdf';
+
+// create new uploadify instance, set path, model and field name
+$uploadify = UploadifyManager::create($path, $car, 'upload_specification'); // or set($file, new Car(), 'upload_specification')
+```
+
 ### Upload with InterventionImage
 
-Upload example with usage of [Intervention Image](http://image.intervention.io/) class created by user. First, you create Image instance with all image manipulations you want (resize, crop, rotate, grayscale...) and then inject that image instance in UploadManager.
+Upload example with usage of [Intervention Image](http://image.intervention.io/) class created by user. First, you create Image instance with all image manipulations you want (resize, crop, rotate, grayscale...) and then inject that image instance in UploadifyManager.
 
 ```php
 // create new eloquent model object
@@ -301,7 +314,7 @@ $user = new User;
 $file = $request->file('avatar');
 
 // create new uploadify instance, set file, model and field name
-$uploadify = Uploadify::create($file, $user, 'upload_avatar'); // or set($image, new User, 'upload_avatar');
+$uploadify = UploadifyManager::create($file, $user, 'upload_avatar'); // or set($image, new User, 'upload_avatar');
 
 // if you want additional image manipulation from Intervention Image package
 $image = Image::make($file)->resize(800, null, function ($constraint) {
@@ -313,32 +326,13 @@ $uploadify->process($image);
 
 // additional options
 $uploadify->setName('custom image name'); // set custom file name
-$uploadify->setPath('path-to-custom-upload-directory'); // set path to custom upload directory, maybe some temporary directory ?
+$uploadify->setQuality(80); // set image quality, default value is 90
 
 // upload() method returns uploaded file name with extension (without path), so you can save value in database
 $avatarName = $uploadify->upload();
 
 $user->upload_avatar = $avatarName;
 $user->save();
-```
-
-### Copy file from existing directory
-
-If you want to copy file from existing directory using `Uploadify`, you must use out-of-the-box solution like creating custom UploadedFile instance.
-
-```php
-use Illuminate\Http\UploadedFile;
-
-$name = 'custom-image.jpg';
-$path = storage_path('path-to-directory/custom-image.jpg');
-
-$file = new UploadedFile($path, $name, 'image/jpeg', filesize($path), null, true);
-
-// create new eloquent model object
-$user = new User;
-
-// create new uploadify instance, set file, model and field name
-$uploadify = Uploadify::create($file, $user, 'upload_avatar'); // or set($image, new User, 'upload_avatar');
 ```
 
 ### Delete
