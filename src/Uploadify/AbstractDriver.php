@@ -122,12 +122,12 @@ abstract class AbstractDriver
     {
         switch ($this->sourceType) {
             case 'path': case 'url':
-                $this->setName(pathinfo($this->source, PATHINFO_FILENAME));
+                $this->setBasename(pathinfo($this->source, PATHINFO_FILENAME));
                 $this->setExtension(pathinfo($this->source, PATHINFO_EXTENSION));
                 break;
 
             case 'uploadedfile':
-                $this->setName(pathinfo($this->source->getClientOriginalName(), PATHINFO_FILENAME));
+                $this->setBasename(pathinfo($this->source->getClientOriginalName(), PATHINFO_FILENAME));
                 $this->setExtension($this->source->getClientOriginalExtension());
                 break;
         }
@@ -140,18 +140,18 @@ abstract class AbstractDriver
      */
     protected function setModelInfo()
     {
-        $this->model->{$this->field} = $this->name.'.'.$this->extension;
+        $this->model->{$this->field} = $this->getName();
     }
 
     /**
-     * Set file name
+     * Set file basename
      *
-     * @param  string  $name
+     * @param  string  $basename
      * @return $this
      */
-    public function setName($name)
+    public function setBasename($basename)
     {
-        $this->name = str_slug($name);
+        $this->basename = str_slug($basename);
 
         return $this;
     }
@@ -183,6 +183,16 @@ abstract class AbstractDriver
     }
 
     /**
+     * Get file name with extension
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->basename.'.'.$this->extension;
+    }
+
+    /**
      * Copy file from source folder to destination folder
      *
      * @return bool
@@ -191,7 +201,7 @@ abstract class AbstractDriver
     {
         $path = $this->storage->disk($this->getDisk())->getDriver()->getAdapter()->getPathPrefix();
 
-        return copy($this->source, $path.DIRECTORY_SEPARATOR.$this->getPath().DIRECTORY_SEPARATOR.$this->name.'.'.$this->extension);
+        return copy($this->source, $path.DIRECTORY_SEPARATOR.$this->getPath().DIRECTORY_SEPARATOR.$this->getName());
     }
 
     /**
@@ -203,7 +213,7 @@ abstract class AbstractDriver
     {
         $contents = file_get_contents($this->source);
 
-        return $this->storage->disk($this->getDisk())->put($this->getPath().DIRECTORY_SEPARATOR.$this->name.'.'.$this->extension, $contents);
+        return $this->storage->disk($this->getDisk())->put($this->getPath().DIRECTORY_SEPARATOR.$this->getName(), $contents);
     }
 
     /**
@@ -216,7 +226,7 @@ abstract class AbstractDriver
             'disk' => $this->getDisk(),
         ];
 
-        return $this->source->storeAs($this->getPath(), $this->name.'.'.$this->extension, $options);
+        return $this->source->storeAs($this->getPath(), $this->getName(), $options);
     }
 
     /**
@@ -226,16 +236,16 @@ abstract class AbstractDriver
      */
     protected function rename()
     {
-        $name = $this->name.'.'.$this->extension;
+        $name = $this->getName();
 
         $i = 1;
         while ($this->storage->disk($this->getDisk())->exists($this->getPath().DIRECTORY_SEPARATOR.$name)) {
-            $name = $this->name.'-'.$i.'.'.$this->extension;
+            $name = $this->basename.'-'.$i.'.'.$this->extension;
 
             $i++;
         }
 
-        $this->setName(rtrim($name, '.'.$this->extension));
+        $this->setBasename(rtrim($name, '.'.$this->extension));
         $this->setModelInfo();
 
         return $name;
