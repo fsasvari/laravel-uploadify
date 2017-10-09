@@ -36,7 +36,6 @@ class Image extends AbstractDriver implements DriverInterface
      */
     public function process(Image $image)
     {
-        dump(get_class($image));
         $this->source = $image;
         $this->sourceType = 'interventionimage';
 
