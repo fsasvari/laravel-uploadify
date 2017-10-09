@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.0 (2017-10-09)
+
+### Added
+- Add upload support via UploadedFile, InterventionImage, path and url
+
 ## v0.4.2 (2017-09-03)
 
 ### Fixed
