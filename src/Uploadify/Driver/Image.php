@@ -4,6 +4,7 @@ namespace Uploadify\Driver;
 
 use Uploadify\AbstractDriver;
 use Uploadify\Contracts\DriverInterface;
+use Intervention\Image\Image;
 
 class Image extends AbstractDriver implements DriverInterface
 {
@@ -28,6 +29,21 @@ class Image extends AbstractDriver implements DriverInterface
     }
 
     /**
+     * Process intervention image
+     *
+     * @param  \Intervention\Image\Image  $image
+     * @return $this
+     */
+    public function process(Image $image)
+    {
+        dump(get_class($image));
+        $this->source = $image;
+        $this->sourceType = 'interventionimage';
+
+        return $this;
+    }
+
+    /**
      * Upload file
      *
      * @return string
@@ -36,7 +52,7 @@ class Image extends AbstractDriver implements DriverInterface
     {
         $this->createDirectory($this->getPath());
 
-        $this->rename($this->getPath(), $this->name, $this->extension);
+        $this->rename();
 
         switch ($this->sourceType) {
             case 'path':
