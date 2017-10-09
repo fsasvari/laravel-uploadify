@@ -16,7 +16,7 @@ class File extends AbstractDriver implements DriverInterface
     {
         $this->createDirectory($this->getPath());
 
-        $this->rename($this->getPath(), $this->name, $this->extension);
+        $this->rename();
 
         switch ($this->sourceType) {
             case 'path':
