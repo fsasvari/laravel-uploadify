@@ -284,10 +284,11 @@ $uploadify = UploadifyManager::create($file, $car, 'upload_specification'); // o
 // additional options
 $uploadify->setName('custom file name'); // set custom file name
 
-// upload() method returns uploaded file name with extension (without path), so you can save value in database
-$specificationName = $uploadify->upload();
+// upload file
+$uploadify->upload();
 
-$car->upload_specification = $specificationName;
+// get uploaded file name with extension (without path), so you can save value in database
+$car->upload_specification = $uploadify->getName();
 $car->save();
 ```
 
@@ -328,10 +329,11 @@ $uploadify->process($image);
 $uploadify->setName('custom image name'); // set custom file name
 $uploadify->setQuality(80); // set image quality, default value is 90
 
-// upload() method returns uploaded file name with extension (without path), so you can save value in database
-$avatarName = $uploadify->upload();
+// upload file
+$uploadify->upload();
 
-$user->upload_avatar = $avatarName;
+// get uploaded file name with extension (without path), so you can save value in database
+$user->upload_avatar = $uploadify->getName();
 $user->save();
 ```
 
