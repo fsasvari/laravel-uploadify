@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.1 (2017-10-23)
+
+### Added
+- Added setDisk() and setPath() methods in AbstractDriver class for easier setting different upload path that one provided in model
+
 ## v1.0 (2017-10-09)
 
 ### Added
