@@ -66,6 +66,20 @@ abstract class AbstractDriver
     protected $extension;
 
     /**
+     * Get file disk
+     *
+     * @var string
+     */
+    protected $disk;
+
+    /**
+     * Get file path
+     *
+     * @var string
+     */
+    protected $path;
+
+    /**
      * Create new driver instance
      *
      * @param  \Illuminate\Contracts\Filesystem\Factory  $storage
@@ -86,6 +100,8 @@ abstract class AbstractDriver
 
         $this->setFileInfo();
         $this->setModelInfo();
+        $this->setDisk($this->getFieldCast()->disk());
+        $this->setPath($this->getFieldCast()->path());
     }
 
     /**
@@ -165,6 +181,32 @@ abstract class AbstractDriver
     public function setExtension($extension)
     {
         $this->extension = strtolower($extension);
+
+        return $this;
+    }
+
+    /**
+     * Set storage disk
+     *
+     * @param  string  $disk
+     * @return $this
+     */
+    public function setDisk($disk)
+    {
+        $this->disk = $disk;
+
+        return $this;
+    }
+
+    /**
+     * Set path to file
+     *
+     * @param  string  $path
+     * @return $this
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
 
         return $this;
     }
@@ -271,7 +313,7 @@ abstract class AbstractDriver
      */
     protected function getDisk()
     {
-        return $this->getFieldCast()->disk();
+        return $this->disk;
     }
 
     /**
@@ -281,7 +323,7 @@ abstract class AbstractDriver
      */
     protected function getPath()
     {
-        return $this->getFieldCast()->path();
+        return $this->path;
     }
 
     /**
