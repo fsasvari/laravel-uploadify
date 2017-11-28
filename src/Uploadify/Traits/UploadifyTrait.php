@@ -49,11 +49,11 @@ trait UploadifyTrait
                 return $this->asTimestamp($value);
             case 'file':
                 if ($value) {
-                    return new FileCast($value, $this->files[$key]);
+                    return new FileCast($value, $this->uploadifyFiles[$key]);
                 }
             case 'image':
                 if ($value) {
-                    return new ImageCast($value, $this->images[$key]);
+                    return new ImageCast($value, $this->uploadifyImages[$key]);
                 }
             default:
                 return $value;
@@ -74,13 +74,13 @@ trait UploadifyTrait
         }
 
         if ($this->hasFileCasts()) {
-            foreach (array_keys($this->files) as $key) {
+            foreach (array_keys($this->uploadifyFiles) as $key) {
                 $casts = array_merge([$key => 'file'], $casts);
             }
         }
 
         if ($this->hasImageCasts()) {
-            foreach (array_keys($this->images) as $key) {
+            foreach (array_keys($this->uploadifyImages) as $key) {
                 $casts = array_merge([$key => 'image'], $casts);
             }
         }
@@ -95,7 +95,7 @@ trait UploadifyTrait
      */
     public function hasFileCasts()
     {
-        return ! empty($this->files);
+        return ! empty($this->uploadifyFiles);
     }
 
     /**
@@ -105,6 +105,6 @@ trait UploadifyTrait
      */
     public function hasImageCasts()
     {
-        return ! empty($this->images);
+        return ! empty($this->uploadifyImages);
     }
 }

@@ -87,7 +87,7 @@ You need to include `UploadifyTrait` trait in your Eloquent models.
 
 #### Files
 
-If you need to show simple files (pdf, doc, zip...) in Eloquent model, you need to define `$files` property with database field name as key and `path` as array value which is required. Also, `disk` value is optional and it will be taken from default disk value from configuration.
+If you need to show simple files (pdf, doc, zip...) in Eloquent model, you need to define `$uploadifyFiles` public property with database field name as key and `path` as array value which is required. Also, `disk` value is optional and it will be taken from default disk value from configuration.
 
 ```php
 <?php
@@ -105,7 +105,7 @@ class Car extends Eloquent
      *
      * @var array
      */
-    protected $files = [
+    protected $uploadifyFiles = [
         'upload_information' => ['path' => 'documents/information'],
         'upload_specification' => ['path' => 'documents/specification', 'disk' => 's3'],
     ];
@@ -114,7 +114,7 @@ class Car extends Eloquent
 
 #### Images
 
-If you need to show images (jpg, png, gif...) in Eloquent model, you need to define `$images` property with database field name as key and `path` as array value which is required. Also, `disk` value is optional and it will be taken from default disk value from configuration.
+If you need to show images (jpg, png, gif...) in Eloquent model, you need to define `$uploadifyImages` public property with database field name as key and `path` as array value which is required. Also, `disk` value is optional and it will be taken from default disk value from configuration.
 
 ```php
 <?php
@@ -132,7 +132,7 @@ class User extends Eloquent
      *
      * @var array
      */
-    protected $images = [
+    public $uploadifyImages = [
         'upload_cover' => ['path' => 'images/cover'],
         'upload_avatar' => ['path' => 'images/avatar', 'disk' => 's3'],
     ];
@@ -159,7 +159,7 @@ class Car extends Eloquent
      *
      * @var array
      */
-    protected $files = [
+    public $uploadifyFiles = [
         'upload_information' => ['path' => 'documents/information'],
         'upload_specification' => ['path' => 'documents/specification'],
     ];
@@ -169,7 +169,7 @@ class Car extends Eloquent
      *
      * @var array
      */
-    protected $images = [
+    public $uploadifyImages = [
         'upload_cover' => ['path' => 'images/cover'],
     ];
 }

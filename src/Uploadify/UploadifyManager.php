@@ -61,9 +61,9 @@ class UploadifyManager
      */
     private function getDriver(Eloquent $model, $field)
     {
-        if ($model->hasFileCasts() && array_key_exists($field, $model->files)) {
+        if ($model->hasFileCasts() && array_key_exists($field, $model->uploadifyFiles)) {
             return 'file';
-        } elseif ($model->hasImageCasts() && array_key_exists($field, $model->images)) {
+        } elseif ($model->hasImageCasts() && array_key_exists($field, $model->uploadifyImages)) {
             return 'image';
         }
 
