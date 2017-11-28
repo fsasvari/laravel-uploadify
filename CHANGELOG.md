@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.2 (2017-11-28)
+
+### Changed
+- Rename `$images` and `$files` properties to more specific `$uploadifyImages` and `$uploadifyFiles`
+
 ## v1.1 (2017-10-23)
 
 ### Added
