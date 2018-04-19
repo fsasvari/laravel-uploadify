@@ -21,7 +21,7 @@ composer require fsasvari/laravel-uploadify
 Or add it directly by copying next line into composer.json:
 
 ```
-"fsasvari/laravel-uploadify": "1.0.*"
+"fsasvari/laravel-uploadify": "1.2.*"
 ```
 
 And then run composer update:
