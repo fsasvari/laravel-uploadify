@@ -83,14 +83,14 @@ class ImageController
         $imageSmallPath = $originalPath.'/'.$this->config->get('uploadify.path').'/'.$this->slugifyName($name.','.$options).'.'.$extension;
 
         if ($this->exists($imagePath, $imageSmallPath)) {
-            $image = $this->setDisk()->get($imageSmallPath);
-            $type = $this->setDisk()->mimeType($imageSmallPath);
+            $image = $this->getDisk()->get($imageSmallPath);
+            $type = $this->getDisk()->mimeType($imageSmallPath);
 
             return $this->response->make($image)->header('Content-Type', $type);
         }
 
         try {
-            $imageNew = $this->imageManager->make($this->setDisk()->get($imagePath));
+            $imageNew = $this->imageManager->make($this->getDisk()->get($imagePath));
         } catch (NotReadableException $e) {
             abort(404);
         }
@@ -99,7 +99,7 @@ class ImageController
 
         if ($this->config->get('uploadify.cache')) {
             try {
-                $imageNew->save($this->setDisk()->getDriver()->getAdapter()->getPathPrefix().$imageSmallPath, $this->config->get('uploadify.quality'));
+                $imageNew->save($this->getDisk()->getDriver()->getAdapter()->getPathPrefix().$imageSmallPath, 85);
             } catch (NotWritableException $e) {
                 $context = [
                     'file' => $e->getFile(),
@@ -122,7 +122,7 @@ class ImageController
      */
     protected function exists($imagePath, $imageSmallPath)
     {
-        return $this->setDisk()->exists($imageSmallPath) && $this->setDisk()->lastModified($imagePath) <= $this->setDisk()->lastModified($imageSmallPath);
+        return $this->getDisk()->exists($imageSmallPath) && $this->getDisk()->lastModified($imagePath) <= $this->getDisk()->lastModified($imageSmallPath);
     }
 
     /**
@@ -133,7 +133,7 @@ class ImageController
      */
     protected function getPath($path)
     {
-        $storagePath = parse_url($this->setDisk()->url(''));
+        $storagePath = parse_url($this->getDisk()->url(''));
 
         $from = [
             trim($storagePath['path'], '/'),
