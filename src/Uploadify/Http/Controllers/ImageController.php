@@ -6,7 +6,7 @@ use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Routing\ResponseFactory as Response;
 use Illuminate\Contracts\Filesystem\Factory as Storage;
 use Intervention\Image\ImageManager;
-use Illuminate\Log\Writer as Log;
+use Psr\Log\LoggerInterface;
 use Intervention\Image\Image;
 use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\Exception\NotWritableException;
@@ -42,9 +42,9 @@ class ImageController
     protected $imageManager;
 
     /**
-     * The log writer instance
+     * The log logger instance
      *
-     * @var \Illuminate\Log\Writer
+     * @var \Psr\Log\LoggerInterface
      */
     protected $log;
 
@@ -54,10 +54,10 @@ class ImageController
      * @param  \Illuminate\Contracts\Config\Repository  $config
      * @param  \Illuminate\Contracts\Filesystem\Factory  $storage
      * @param  \Intervention\Image\ImageManager  $imageManager
-     * @param  \Illuminate\Log\Writer  $log
+     * @param  \Psr\Log\LoggerInterface  $log
      * @return void
      */
-    public function __construct(Config $config, Response $response, Storage $storage, ImageManager $imageManager, Log $log)
+    public function __construct(Config $config, Response $response, Storage $storage, ImageManager $imageManager, LoggerInterface $log)
     {
         $this->config = $config;
         $this->response = $response;
@@ -83,14 +83,14 @@ class ImageController
         $imageSmallPath = $originalPath.'/'.$this->config->get('uploadify.path').'/'.$this->slugifyName($name.','.$options).'.'.$extension;
 
         if ($this->exists($imagePath, $imageSmallPath)) {
-            $image = $this->getStorage()->get($imageSmallPath);
-            $type = $this->getStorage()->mimeType($imageSmallPath);
+            $image = $this->setDisk()->get($imageSmallPath);
+            $type = $this->setDisk()->mimeType($imageSmallPath);
 
             return $this->response->make($image)->header('Content-Type', $type);
         }
 
         try {
-            $imageNew = $this->imageManager->make($this->getStorage()->get($imagePath));
+            $imageNew = $this->imageManager->make($this->setDisk()->get($imagePath));
         } catch (NotReadableException $e) {
             abort(404);
         }
@@ -99,7 +99,7 @@ class ImageController
 
         if ($this->config->get('uploadify.cache')) {
             try {
-                $imageNew->save($this->getStorage()->getDriver()->getAdapter()->getPathPrefix().$imageSmallPath, 85);
+                $imageNew->save($this->setDisk()->getDriver()->getAdapter()->getPathPrefix().$imageSmallPath, $this->config->get('uploadify.quality'));
             } catch (NotWritableException $e) {
                 $context = [
                     'file' => $e->getFile(),
@@ -118,12 +118,11 @@ class ImageController
      *
      * @param  string  $imagePath
      * @param  string  $imageSmallPath
-     * @param  string  $disk
      * @return bool
      */
     protected function exists($imagePath, $imageSmallPath)
     {
-        return $this->getStorage()->exists($imageSmallPath) && $this->getStorage()->lastModified($imagePath) <= $this->getStorage()->lastModified($imageSmallPath);
+        return $this->setDisk()->exists($imageSmallPath) && $this->setDisk()->lastModified($imagePath) <= $this->setDisk()->lastModified($imageSmallPath);
     }
 
     /**
@@ -134,7 +133,7 @@ class ImageController
      */
     protected function getPath($path)
     {
-        $storagePath = parse_url($this->getStorage()->url(''));
+        $storagePath = parse_url($this->setDisk()->url(''));
 
         $from = [
             trim($storagePath['path'], '/'),
@@ -148,7 +147,7 @@ class ImageController
      *
      * @return \Illuminate\Contracts\Filesystem\Filesystem
      */
-    protected function getStorage()
+    protected function getDisk()
     {
         return $this->storage->disk($this->config->get('uploadify.disk'));
     }
