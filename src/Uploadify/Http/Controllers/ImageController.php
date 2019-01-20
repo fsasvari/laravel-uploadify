@@ -82,7 +82,7 @@ class ImageController
     {
         $originalPath = $this->getPath($path);
 
-        $imagePath = $originalPath.'/'.$name.'.'.($extension ?: '');
+        $imagePath = $originalPath.'/'.$name.($extension ? '.'.$extension : '');
         $imageSmallPath = $originalPath.'/'.$this->config->get('uploadify.path').'/'.$this->slugifyName($name.','.$options).'.'.($extension ?: '');
 
         if ($this->exists($imagePath, $imageSmallPath)) {
