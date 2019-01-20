@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get('{path}/{options}/{name}.{extension}', '\Uploadify\Http\Controllers\ImageController@show')
+Route::get('{path}/{options}/{name}.{extension?}', '\Uploadify\Http\Controllers\ImageController@show')
     ->where('path', '[a-z-/]+')
     ->where('options', '[a-z0-9-_,]+')
     ->where('name', '.+?')

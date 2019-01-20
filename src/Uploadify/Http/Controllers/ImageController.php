@@ -52,6 +52,7 @@ class ImageController
      * Create new image controller instance
      *
      * @param  \Illuminate\Contracts\Config\Repository  $config
+     * @param  \Illuminate\Contracts\Routing\ResponseFactory  $response
      * @param  \Illuminate\Contracts\Filesystem\Factory  $storage
      * @param  \Intervention\Image\ImageManager  $imageManager
      * @param  \Psr\Log\LoggerInterface  $log
@@ -72,15 +73,17 @@ class ImageController
      * @param  string  $path
      * @param  string  $options
      * @param  string  $name
-     * @param  string  $extension
+     * @param  string|null  $extension
      * @return mixed
+     *
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function show($path, $options, $name, $extension)
+    public function show($path, $options, $name, $extension = null)
     {
         $originalPath = $this->getPath($path);
 
         $imagePath = $originalPath.'/'.$name.'.'.$extension;
-        $imageSmallPath = $originalPath.'/'.$this->config->get('uploadify.path').'/'.$this->slugifyName($name.','.$options).'.'.$extension;
+        $imageSmallPath = $originalPath.'/'.$this->config->get('uploadify.path').'/'.$this->slugifyName($name.','.$options).'.'.($extension ?: '');
 
         if ($this->exists($imagePath, $imageSmallPath)) {
             $image = $this->getDisk()->get($imageSmallPath);
@@ -92,6 +95,8 @@ class ImageController
         try {
             $imageNew = $this->imageManager->make($this->getDisk()->get($imagePath));
         } catch (NotReadableException $e) {
+            $imageNew = null;
+
             abort(404);
         }
 
