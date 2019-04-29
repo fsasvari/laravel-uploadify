@@ -1,9 +1,27 @@
 # Changelog
 
-## v1.2.1 (2018-04-19)
+## v1.2.7 (2019-04-29)
 
 ### Added
--  Added support for `Laravel 5.6` version
+- Added support for `Laravel 5.8` version
+
+## v1.2.6 (2019-01-20)
+
+### Added
+- Added support for `Laravel 5.7` version
+
+### Fixed
+- Fixed image thumbnail show without extension
+
+## v1.2.3 (2018-04-19)
+
+### Added
+- Added support for `Laravel 5.6` version
+- Added "quality" value in configuration file
+
+### Fixed
+- Fixed getDisk() method in Image controller
+- Fixed problem with Laravel Logger
 
 ## v1.2 (2017-11-28)
 
