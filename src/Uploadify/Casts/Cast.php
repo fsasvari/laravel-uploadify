@@ -4,6 +4,7 @@ namespace Uploadify\Casts;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Arr;
 
 abstract class Cast
 {
@@ -49,8 +50,8 @@ abstract class Cast
      */
     protected function saveSettings(array $settings = [])
     {
-        $this->setPath(array_has($settings, 'path') ? $settings['path'] : '');
-        $this->setDisk(array_has($settings, 'disk') ? $settings['disk'] : null);
+        $this->setPath(Arr::has($settings, 'path') ? $settings['path'] : '');
+        $this->setDisk(Arr::has($settings, 'disk') ? $settings['disk'] : null);
     }
 
     /**
