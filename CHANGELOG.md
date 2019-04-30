@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.2.8 (2019-04-30)
+
+### Fixed
+- Add catch exception block for `FileNotFoundException` in `show()` method on default `ImageController`
+
+### Changed
+- Remove all usages for deprecated `array_*` Laravel function with `Arr` helper class
+
 ## v1.2.7 (2019-04-29)
 
 ### Added
