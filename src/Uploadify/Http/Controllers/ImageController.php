@@ -7,9 +7,11 @@ use Illuminate\Contracts\Routing\ResponseFactory as Response;
 use Illuminate\Contracts\Filesystem\Factory as Storage;
 use Intervention\Image\ImageManager;
 use Psr\Log\LoggerInterface;
+use Illuminate\Support\Arr;
 use Intervention\Image\Image;
 use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\Exception\NotWritableException;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class ImageController
 {
@@ -56,6 +58,7 @@ class ImageController
      * @param  \Illuminate\Contracts\Filesystem\Factory  $storage
      * @param  \Intervention\Image\ImageManager  $imageManager
      * @param  \Psr\Log\LoggerInterface  $log
+     *
      * @return void
      */
     public function __construct(Config $config, Response $response, Storage $storage, ImageManager $imageManager, LoggerInterface $log)
@@ -74,6 +77,7 @@ class ImageController
      * @param  string  $options
      * @param  string  $name
      * @param  string|null  $extension
+     *
      * @return mixed
      *
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
@@ -94,6 +98,10 @@ class ImageController
 
         try {
             $imageNew = $this->imageManager->make($this->getDisk()->get($imagePath));
+        }  catch (FileNotFoundException $e) {
+            $imageNew = null;
+
+            abort(404);
         } catch (NotReadableException $e) {
             $imageNew = null;
 
@@ -123,6 +131,7 @@ class ImageController
      *
      * @param  string  $imagePath
      * @param  string  $imageSmallPath
+     *
      * @return bool
      */
     protected function exists($imagePath, $imageSmallPath)
@@ -134,6 +143,7 @@ class ImageController
      * Get real path to image
      *
      * @param  string  $path
+     *
      * @return string
      */
     protected function getPath($path)
@@ -161,6 +171,7 @@ class ImageController
      * Create array from options string
      *
      * @param  string  $options
+     *
      * @return array
      */
     protected function parseOptions($options)
@@ -186,6 +197,7 @@ class ImageController
      * Get slugified name
      *
      * @param  string  $name
+     *
      * @return string
      */
     protected function slugifyName($name)
@@ -198,22 +210,23 @@ class ImageController
      *
      * @param  \Intervention\Image\Image  $image
      * @param  array  $options
+     *
      * @return \Intervention\Image\Image
      */
     protected function processImage(Image $image, $options)
     {
-        $width = array_has($options, 'w') ? $options['w'] : null;
-        $height = array_has($options, 'h') ? $options['h'] : null;
+        $width = Arr::has($options, 'w') ? $options['w'] : null;
+        $height = Arr::has($options, 'h') ? $options['h'] : null;
 
         if ($width || $height) {
-            if (array_has($options, 'crop') && $options['crop'] == 'resize') {
+            if (Arr::has($options, 'crop') && $options['crop'] == 'resize') {
                 $image->resize($width, $height);
             } else {
                 $image->fit($width, $height);
             }
         }
 
-        if (array_has($options, 'effect')) {
+        if (Arr::has($options, 'effect')) {
             switch($options['effect']) {
                 case 'greyscale':
                     $image->greyscale();
@@ -224,31 +237,31 @@ class ImageController
             }
         }
 
-        if (array_has($options, 'blur')) {
+        if (Arr::has($options, 'blur')) {
             $image->blur($options['blur']);
         }
 
-        if (array_has($options, 'brightness')) {
+        if (Arr::has($options, 'brightness')) {
             $image->brightness($options['brightness']);
         }
 
-        if (array_has($options, 'contrast')) {
+        if (Arr::has($options, 'contrast')) {
             $image->contrast($options['contrast']);
         }
 
-        if (array_has($options, 'sharpen')) {
+        if (Arr::has($options, 'sharpen')) {
             $image->sharpen($options['sharpen']);
         }
 
-        if (array_has($options, 'pixelate')) {
+        if (Arr::has($options, 'pixelate')) {
             $image->pixelate($options['pixelate']);
         }
 
-        if (array_has($options, 'rotate')) {
+        if (Arr::has($options, 'rotate')) {
             $image->rotate($options['rotate']);
         }
 
-        if (array_has($options, 'flip')) {
+        if (Arr::has($options, 'flip')) {
             $image->flip($options['flip']);
         }
 
