@@ -11,14 +11,14 @@
         }
     ],
     "require": {
-        "illuminate/support": "5.5.*|5.6.*|5.7.*|5.8.*",
-        "illuminate/http": "5.5.*|5.6.*|5.7.*|5.8.*",
-        "illuminate/filesystem": "5.5.*|5.6.*|5.7.*|5.8.*",
-        "intervention/image": "2.4.*"
+        "illuminate/support": "5.5.*|5.6.*|5.7.*|5.8.*|6.*",
+        "illuminate/http": "5.5.*|5.6.*|5.7.*|5.8.*|6.*",
+        "illuminate/filesystem": "5.5.*|5.6.*|5.7.*|5.8.*|6.*",
+        "intervention/image": "2.4.*|2.5.*"
     },
     "require-dev": {
-        "mockery/mockery": "~1.0",
-        "phpunit/phpunit": "~6.0|~7.0"
+        "mockery/mockery": "~1.0|^1.2.3",
+        "phpunit/phpunit": "~6.0|~7.0|^8.3"
     },
     "autoload": {
         "psr-4": {

@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.0.0 (2019-12-16)
+
+### Added
+- Added support for `Laravel 6` version
+
 ## v1.2.8 (2019-04-30)
 
 ### Fixed

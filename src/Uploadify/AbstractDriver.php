@@ -6,6 +6,7 @@ use Illuminate\Contracts\Filesystem\Factory as Storage;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Http\UploadedFile;
 use Uploadify\Exceptions\InvalidSourceException;
+use Illuminate\Support\Str;
 
 abstract class AbstractDriver
 {
@@ -52,11 +53,18 @@ abstract class AbstractDriver
     protected $field;
 
     /**
-     * File basename
+     * File full name with extension
      *
      * @var string
      */
     protected $name;
+
+    /**
+     * File basename
+     *
+     * @var string
+     */
+    protected $basename;
 
     /**
      * File extension
@@ -167,7 +175,7 @@ abstract class AbstractDriver
      */
     public function setBasename($basename)
     {
-        $this->basename = str_slug($basename);
+        $this->basename = Str::slug($basename);
 
         return $this;
     }
