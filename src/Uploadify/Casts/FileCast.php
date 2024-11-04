@@ -2,17 +2,10 @@
 
 namespace Uploadify\Casts;
 
-use Uploadify\Casts\Cast as BaseCast;
-
-class FileCast extends BaseCast
+class FileCast extends Cast
 {
-    /**
-     * Get full url to file
-     *
-     * @return string
-     */
     public function url()
     {
-        return $this->getStorage()->url($this->path().'/'.$this->name());
+        return $this->getStorage()->url($this->path() . '/' . $this->name());
     }
 }

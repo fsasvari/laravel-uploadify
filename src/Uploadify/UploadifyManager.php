@@ -62,12 +62,12 @@ class UploadifyManager
     private function getDriver(Eloquent $model, $field)
     {
         if ($model->hasFileCasts() && array_key_exists($field, $model->uploadifyFiles)) {
-            return 'file';
+            return 'filecast';
         } elseif ($model->hasImageCasts() && array_key_exists($field, $model->uploadifyImages)) {
-            return 'image';
+            return 'imagecast';
         }
 
-        throw new InvalidFieldException('Field "'.$field.'" is not defined as Uploadify field!');
+        throw new InvalidFieldException('Field "' . $field . '" is not defined as Uploadify field!');
     }
 
     /**
@@ -83,10 +83,10 @@ class UploadifyManager
     private function createDriver($driver, $file, Eloquent $model, $field)
     {
         $name = ucfirst($driver);
-        $class = '\\Uploadify\\Driver\\'.$name;
+        $class = '\\Uploadify\\Driver\\' . $name;
 
         if (! class_exists($class)) {
-            throw new InvalidDriverException('Driver "'.$class.'" does not exists!');
+            throw new InvalidDriverException('Driver "' . $class . '" does not exists!');
         }
 
         return new $class($this->storage, $this->settings, $file, $model, $field);

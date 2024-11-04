@@ -86,8 +86,8 @@ class ImageController
     {
         $originalPath = $this->getPath($path);
 
-        $imagePath = $originalPath.'/'.$name.($extension ? '.'.$extension : '');
-        $imageSmallPath = $originalPath.'/'.$this->config->get('uploadify.path').'/'.$this->slugifyName($name.','.$options).'.'.($extension ?: '');
+        $imagePath = $originalPath . '/' . $name . ($extension ? '.' . $extension : '');
+        $imageSmallPath = $originalPath . '/' . $this->config->get('uploadify.path') . '/' . $this->slugifyName($name . ',' . $options) . '.' . ($extension ?: '');
 
         if ($this->exists($imagePath, $imageSmallPath)) {
             $image = $this->getDisk()->get($imageSmallPath);
@@ -98,7 +98,7 @@ class ImageController
 
         try {
             $imageNew = $this->imageManager->make($this->getDisk()->get($imagePath));
-        }  catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException $e) {
             $imageNew = null;
 
             abort(404);
@@ -112,7 +112,7 @@ class ImageController
 
         if ($this->config->get('uploadify.cache')) {
             try {
-                $imageNew->save($this->getDisk()->getDriver()->getAdapter()->getPathPrefix().$imageSmallPath, 85);
+                $imageNew->save($this->getDisk()->getDriver()->getAdapter()->getPathPrefix() . $imageSmallPath, 85);
             } catch (NotWritableException $e) {
                 $context = [
                     'file' => $e->getFile(),
@@ -227,7 +227,7 @@ class ImageController
         }
 
         if (Arr::has($options, 'effect')) {
-            switch($options['effect']) {
+            switch ($options['effect']) {
                 case 'greyscale':
                     $image->greyscale();
                     break;

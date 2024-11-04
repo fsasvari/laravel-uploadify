@@ -145,7 +145,8 @@ abstract class AbstractDriver
     protected function setFileInfo()
     {
         switch ($this->sourceType) {
-            case 'path': case 'url':
+            case 'path':
+            case 'url':
                 $this->setBasename(pathinfo($this->source, PATHINFO_FILENAME));
                 $this->setExtension(pathinfo($this->source, PATHINFO_EXTENSION));
                 break;
@@ -239,7 +240,7 @@ abstract class AbstractDriver
      */
     public function getName()
     {
-        return $this->basename.'.'.$this->extension;
+        return $this->basename . '.' . $this->extension;
     }
 
     /**
@@ -251,7 +252,7 @@ abstract class AbstractDriver
     {
         $path = $this->storage->disk($this->getDisk())->getDriver()->getAdapter()->getPathPrefix();
 
-        return copy($this->source, $path.DIRECTORY_SEPARATOR.$this->getPath().DIRECTORY_SEPARATOR.$this->getName());
+        return copy($this->source, $path . DIRECTORY_SEPARATOR . $this->getPath() . DIRECTORY_SEPARATOR . $this->getName());
     }
 
     /**
@@ -263,7 +264,7 @@ abstract class AbstractDriver
     {
         $contents = file_get_contents($this->source);
 
-        return $this->storage->disk($this->getDisk())->put($this->getPath().DIRECTORY_SEPARATOR.$this->getName(), $contents);
+        return $this->storage->disk($this->getDisk())->put($this->getPath() . DIRECTORY_SEPARATOR . $this->getName(), $contents);
     }
 
     /**
@@ -289,13 +290,13 @@ abstract class AbstractDriver
         $name = $this->getName();
 
         $i = 1;
-        while ($this->storage->disk($this->getDisk())->exists($this->getPath().DIRECTORY_SEPARATOR.$name)) {
-            $name = $this->basename.'-'.$i.'.'.$this->extension;
+        while ($this->storage->disk($this->getDisk())->exists($this->getPath() . DIRECTORY_SEPARATOR . $name)) {
+            $name = $this->basename . '-' . $i . '.' . $this->extension;
 
             $i++;
         }
 
-        $this->setBasename(rtrim($name, '.'.$this->extension));
+        $this->setBasename(rtrim($name, '.' . $this->extension));
         $this->setModelInfo();
 
         return $name;

@@ -18,7 +18,7 @@ class UploadifyServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../../config/uploadify.php' => config_path('uploadify.php'),
+            __DIR__ . '/../../config/uploadify.php' => config_path('uploadify.php'),
         ], 'uploadify');
     }
 
@@ -30,7 +30,8 @@ class UploadifyServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/uploadify.php', 'uploadify'
+            __DIR__ . '/../../config/uploadify.php',
+            'uploadify'
         );
 
         $this->app->singleton(UploadifyManager::class, function ($app) {

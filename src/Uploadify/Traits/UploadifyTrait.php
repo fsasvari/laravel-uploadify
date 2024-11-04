@@ -9,6 +9,58 @@ use Uploadify\Casts\ImageCast;
 trait UploadifyTrait
 {
     /**
+     * Initialize the trait for an instance.
+     *
+     * @return void
+     */
+    public function initializeUploadifyTrait()
+    {
+        if ($this->hasFileCasts()) {
+            foreach (array_keys($this->uploadifyFiles) as $key) {
+                if (! isset($this->attributes[$key])) {
+                    $this->casts[$key] = 'filecast';
+                }
+            }
+        }
+
+        if ($this->hasImageCasts()) {
+            foreach (array_keys($this->uploadifyImages) as $key) {
+                if (! isset($this->attributes[$key])) {
+                    $this->casts[$key] = 'imagecast';
+                }
+            }
+        }
+    }
+
+    /**
+     * Set a given attribute on the model.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @return mixed
+     */
+    public function setAttribute($key, $value)
+    {
+        if (is_string($value)) {
+            if ($this->hasFileCasts()) {
+                if (array_key_exists($key, $this->uploadifyFiles)) {
+                    $this->attributes[$key] = $value;
+                    return $this;
+                }
+            }
+
+            if ($this->hasImageCasts()) {
+                if (array_key_exists($key, $this->uploadifyImages)) {
+                    $this->attributes[$key] = $value;
+                    return $this;
+                }
+            }
+        }
+
+        return parent::setAttribute($key, $value);
+    }
+
+    /**
      * Cast an attribute to a native PHP type.
      *
      * @param  string  $key
@@ -22,70 +74,46 @@ trait UploadifyTrait
         }
 
         switch ($this->getCastType($key)) {
-            case 'int':
-            case 'integer':
-                return (int) $value;
-            case 'real':
-            case 'float':
-            case 'double':
-                return (float) $value;
-            case 'string':
-                return (string) $value;
-            case 'bool':
-            case 'boolean':
-                return (bool) $value;
-            case 'object':
-                return $this->fromJson($value, true);
-            case 'array':
-            case 'json':
-                return $this->fromJson($value);
-            case 'collection':
-                return new BaseCollection($this->fromJson($value));
-            case 'date':
-                return $this->asDate($value);
-            case 'datetime':
-                return $this->asDateTime($value);
-            case 'timestamp':
-                return $this->asTimestamp($value);
-            case 'file':
+            case 'filecast':
                 if ($value) {
                     return new FileCast($value, $this->uploadifyFiles[$key]);
+                } else {
+                    return null;
                 }
-            case 'image':
+            case 'imagecast':
                 if ($value) {
                     return new ImageCast($value, $this->uploadifyImages[$key]);
+                } else {
+                    return null;
                 }
-            default:
-                return $value;
         }
+
+        return parent::castAttribute($key, $value);
     }
 
     /**
-     * Get the casts array.
+     * Determine if the given key is cast using a custom class.
      *
-     * @return array
+     * @param  string  $key
+     * @return bool
+     *
+     * @throws \Illuminate\Database\Eloquent\InvalidCastException
      */
-    public function getCasts()
+    protected function isClassCastable($key)
     {
-        $casts = $this->casts;
-
-        if ($this->getIncrementing()) {
-            $casts = array_merge([$this->getKeyName() => $this->getKeyType()], $casts);
-        }
-
         if ($this->hasFileCasts()) {
-            foreach (array_keys($this->uploadifyFiles) as $key) {
-                $casts = array_merge([$key => 'file'], $casts);
+            if (array_key_exists($key, $this->uploadifyFiles)) {
+                return false;
             }
         }
 
         if ($this->hasImageCasts()) {
-            foreach (array_keys($this->uploadifyImages) as $key) {
-                $casts = array_merge([$key => 'image'], $casts);
+            if (array_key_exists($key, $this->uploadifyImages)) {
+                return false;
             }
         }
 
-        return $casts;
+        return parent::isClassCastable($key);
     }
 
     /**
